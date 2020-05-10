@@ -1,0 +1,7 @@
+{
+  "name": "ionic-salmon",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
