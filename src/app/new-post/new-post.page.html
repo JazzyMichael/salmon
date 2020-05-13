@@ -1,11 +1,27 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>New Post</ion-title>
+    <ion-title>
+      New
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">New</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-  <p>Form</p>
+  <p style="text-align: center;">Form goes here</p>
+
+  <div style="max-width: 777px; margin: 1em auto;">
+    <p>File Input</p>
+    <p><i>*1-5 Images</i></p>
+    <p>Reorder Group for images</p>
+    <p>Title</p>
+    <p>Location (physical location or name of restaurant)</p>
+    <p>Description (inspiration, recipe, or nothing at all</p>
+  </div>
 
 </ion-content>

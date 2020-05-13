@@ -10,6 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  loggedIn: boolean;
+  darkMode: boolean;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -23,5 +26,23 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
+    this.setDarkMode();
+  }
+
+  setDarkMode() {
+    this.darkMode = !!localStorage.getItem('darkMode');
+    if (this.darkMode) {
+      document.body.classList.add('dark');
+    }
+  }
+
+  toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark');
+    if (isDark) {
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      localStorage.removeItem('darkMode');
+    }
   }
 }
