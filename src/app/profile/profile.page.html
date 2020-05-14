@@ -4,9 +4,12 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Username</ion-title>
-    <ion-buttons *ngIf="editable" slot="end">
-      <ion-button color="primary" (click)="edit()">
+    <ion-buttons slot="end">
+      <ion-button *ngIf="editable" color="primary" (click)="edit()">
         <ion-icon slot="icon-only" name="pencil"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="!editable" color="primary" routerLink="/">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -32,7 +35,7 @@
     </ion-card-content>
   </ion-card>
 
-  <h2 style="margin-left: 1em; margin-top: 2em;">2 Posts</h2>
+  <h2 (click)="editable = !editable" style="margin-left: 1em; margin-top: 2em;">2 Posts</h2>
 
   <ion-card>
     <ion-card-content>
