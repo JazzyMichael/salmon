@@ -6,11 +6,29 @@
 
 <ion-content style="text-align: center;">
 
-  <h4>Info about salmon, the basic recipe, maybe a few pics</h4>
+  <ion-segment [value]="segment" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="app">
+      <ion-label>The App</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="fish">
+      <ion-label>The Fish</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <br>
+  <div *ngIf="segment === 'app'">
+    <p>App Info Image</p>
+    <p>What is this app</p>
+    <p>Inspiration</p>
+    <p>Cool Features</p>
+  </div>
 
-  <h4>Info about the app features</h4>
+
+  <div *ngIf="segment === 'fish'">
+    <p>Fish Info Image</p>
+    <p>History of Salmon</p>
+    <p>About the fish</p>
+    <p>Basic Recipe & Ingredients</p>
+  </div>
 
   <div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr; width: 90%; max-width: 700px; margin: 2em auto;">
     <ion-card routerLink="/privacy">

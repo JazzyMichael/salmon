@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
+  segment: string = 'app';
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  segmentChanged(event: any) {
+    this.segment = event.target.value;
   }
 
 }
