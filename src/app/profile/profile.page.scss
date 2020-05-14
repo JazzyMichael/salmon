@@ -1,0 +1,13 @@
+.profile-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.profile-avatar {
+    background-size: cover;
+    background-position: center;
+}
+
+.profile-info {
+    padding: 1em;
+}

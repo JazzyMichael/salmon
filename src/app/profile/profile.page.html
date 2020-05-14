@@ -1,22 +1,32 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Username</ion-title>
+    <ion-buttons *ngIf="editable" slot="end">
+      <ion-button color="primary" (click)="edit()">
+        <ion-icon slot="icon-only" name="pencil"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="profileUser$ | async as profile">
 
-  <ion-card>
-    <ion-card-header>User Info</ion-card-header>
-    <ion-card-content>
-      <p>Avatar</p>
-      <p>Username</p>
-      <p>Location</p>
-      <p>Link</p>
-    </ion-card-content>
+  <ion-card class="profile-card">
+    <div class="profile-avatar" [ngStyle]="{ 'background-image': 'url(' + 'assets/test-salmon-horizontal.jpg' + ')' }"></div>
+    <div class="profile-info">
+      <ion-text color="dark">
+        <h2>User Name Here</h2>
+        <p>
+          <a href="https://caronabalona.com">caronabalona.com</a>
+        </p>
+      </ion-text>
+    </div>
   </ion-card>
 
-  <ion-card style="border-bottom: 8px solid var(--ion-color-primary);">
+  <ion-card class="description-card" style="border-bottom: 8px solid var(--ion-color-primary);">
     <ion-card-content>
       <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi voluptatibus optio saepe doloribus cupiditate esse odit quaerat nulla fuga alias quo provident soluta veniam ducimus hic, quisquam explicabo eius. Quia?</p>
     </ion-card-content>

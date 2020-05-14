@@ -1,11 +1,140 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Post</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-wrap">Post Title even if Its a long one like this</ion-title>
+    <ion-buttons *ngIf="editable" slot="end">
+      <ion-button color="primary" (click)="edit()">
+        <ion-icon slot="icon-only" name="pencil"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="post$ | async as postId">
 
-  <p style="text-align: center;">Viewing Post Page</p>
+  <ion-card>
+    <ion-slides pager="true" [options]="slideOpts">
+      <ion-slide style="display: flex; flex-direction: column; max-height: 90vh;">
+        <img src="../../assets/test-salmon-horizontal.jpg"/>
+        <p style="margin-bottom: 2em">Aye my man this a caption. Butter, salt, pepper, oil, basil, mmmm!</p>
+      </ion-slide>
+
+      <ion-slide style="display: flex; flex-direction: column; max-height: 90vh;">
+        <img src="../../assets/test-salmon-vertical.jpg"/>
+        <p style="margin-bottom: 2em"></p>
+      </ion-slide>
+    </ion-slides>
+  </ion-card>
+
+  <div style="padding: 1em;">
+    <ion-text color="dark">
+      <h1>Post Title even if Its a long one like this</h1>
+    </ion-text>
+    <ion-text color="medium">
+      <p>{{ testDate | date:'shortDate' }} if location</p>
+    </ion-text>
+  </div>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <p style="text-align: center;" (click)="editable = !editable">Viewing Post {{ postId }}</p>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nemo quibusdam eius? Totam itaque laborum ipsam quis sunt earum ipsum, nemo tenetur quasi impedit ex cum? Corrupti voluptates ea sit.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <p>Single Image or Swiper Slides</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

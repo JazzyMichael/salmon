@@ -21,7 +21,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card *ngFor="let post of posts" style="margin-bottom: 1em">
+  <ion-card *ngFor="let post of posts" [routerLink]="'/post/' + post.id" style="margin-bottom: 1em">
     <div class="post-img" [ngStyle]="{ 'background-image': 'url(' + post.thumbnailUrl + ')' }"></div>
     <ion-card-content>{{ post.title }}</ion-card-content>
   </ion-card>

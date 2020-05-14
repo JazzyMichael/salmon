@@ -18,6 +18,7 @@ export class AuthService {
     this.user$.next({
       username: 'Jazzy Salmon',
       uid: 'uid123',
+      urlExtension: 'jazzysalmon',
       avatar: '',
       link: 'https://github.com/Jappzy',
       postCount: 2,

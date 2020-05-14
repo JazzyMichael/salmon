@@ -15,6 +15,7 @@ export class HomePage implements OnInit {
     this.sort = 'recent';
     this.posts = new Array(20);
     const posty = {
+      id: 'potato1234shh',
       title: 'Simple Fried Salmon on tin foil',
       description: 'daj adk foi blaidu bneja; iw oewefd',
       thumbnailUrl: 'assets/test-salmon-vertical.jpg'
