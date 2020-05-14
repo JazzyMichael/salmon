@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  sort: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.sort = 'recent';
+  }
+
+  changeSort() {
+    this.sort = this.sort === 'recent' ? 'top' : 'recent';
   }
 
 }

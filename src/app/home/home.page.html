@@ -1,8 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
-      Salmon
+      {{ sort | titlecase }} Salmon
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="changeSort()">
+        <ion-icon slot="icon-only" [name]="sort === 'recent' ? 'flash' : 'flame'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
