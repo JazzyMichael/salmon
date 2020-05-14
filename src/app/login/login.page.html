@@ -1,9 +1,32 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <div class="login-banner-image"></div>
+
+  <div class="login-btn-container">
+    <ion-button (click)="googleLogin()" color="primary" fill="outline" style="font-weight: 900;">
+      <ion-icon slot="start" name="logo-google" color="primary" style="margin-right: 16px; margin-left: 6px;"></ion-icon>
+      Google
+    </ion-button>
+
+    <ion-button (click)="appleLogin()" color="dark">
+      <ion-icon slot="start" name="logo-apple" style="margin-right: 16px;"></ion-icon>
+      Apple
+    </ion-button>
+  </div>
+
 </ion-content>
+
+<ion-footer class="ion-no-border" style="padding: 1em; text-align: right;">
+  <ion-text color="medium">
+    <span style="font-size: 0.75em;">*The latest developments in cloud and app technologies are used to keep all data minimal, fast, and secure.</span>
+  </ion-text>
+</ion-footer>

@@ -12,4 +12,12 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+  appleLogin() {
+    return;
+  }
+
+  googleLogin() {
+    return;
+  }
+
 }
