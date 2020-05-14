@@ -1,27 +1,58 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      New
-    </ion-title>
+    <ion-title>New Post</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="submit()" [disabled]="!postForm.valid" color="primary">Submit</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">New</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
 
-  <p style="text-align: center;">Form goes here</p>
+  <ion-fab-button style="margin: 2em auto">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
 
-  <div style="max-width: 777px; margin: 1em auto;">
-    <p>File Input</p>
-    <p><i>*1-5 Images</i></p>
-    <p>Reorder Group for images</p>
-    <p>Title</p>
-    <p>Location (physical location or name of restaurant)</p>
-    <p>Description (inspiration, recipe, or nothing at all</p>
-  </div>
+  <p style="text-align: center;"><i>*Must have 1-5 images</i></p>
+
+  <br><br><br><br>
+
+  <!--
+    TODO:
+    - upload image file with validation
+    - image previews
+      - re-order
+      - remove
+    - valid form control
+  -->
+
+  <form [formGroup]="postForm">
+    <ion-card>
+      <ion-card-content style="padding: 10px">
+        <ion-item lines="none">
+          <ion-label position="floating">Title</ion-label>
+          <ion-input formControlName="title" maxLength="32" required autocomplete="off"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content style="padding: 10px">
+        <ion-item lines="none">
+          <ion-label position="floating">Location (optional)</ion-label>
+          <ion-input formControlName="location" maxLength="32" autocomplete="off"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content style="padding: 10px">
+        <ion-item lines="none">
+          <ion-label position="floating">Description (optional)</ion-label>
+          <ion-textarea formControlName="description" maxLength="240" rows="5" autocomplete="off"></ion-textarea>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </form>
 
 </ion-content>

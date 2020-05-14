@@ -45,14 +45,6 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
-    path: 'new-post',
-    loadChildren: () => import('./new-post/new-post.module').then( m => m.NewPostPageModule)
-  },
-  {
-    path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
   }
 ];
 @NgModule({

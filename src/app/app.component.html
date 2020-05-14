@@ -2,27 +2,32 @@
   <ion-menu side="start" content-id="main" #sideMenu>
     <img src="./assets/test-salmon-horizontal.jpg" alt="Logo">
     <ion-content>
-      <ion-list style="height: 100%;">
+      <ion-list style="padding-bottom: 2em">
         <ion-item>
           <ion-toggle slot="start" color="primary" [checked]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
           <ion-label>Dark Mode</ion-label>
         </ion-item>
+        <ion-item *ngIf="auth.user$ | async as user; else loginButton" routerLink="/profile" (click)="sideMenu.close()">
+          <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>
+            <ion-text color="dark">
+              <p>{{ user.username }}</p>
+            </ion-text>
+            <ion-text color="medium">
+              <p>{{ user.likeCount }} likes from {{ user.postCount }} posts</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+        <ng-template #loginButton>
+          <ion-item routerLink="/login" (click)="sideMenu.close()">
+            <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>Login</ion-label>
+          </ion-item>
+        </ng-template>
         <ion-item routerLink="/" (click)="sideMenu.close()">
           <ion-icon name="home-outline" slot="start" color="primary"></ion-icon>
           <ion-label>Home</ion-label>
         </ion-item>
-        <ion-item *ngIf="!loggedIn" routerLink="/login" (click)="loggedIn = true">
-          <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Login</ion-label>
-        </ion-item>
-        <ion-item *ngIf="loggedIn" routerLink="/profile" (click)="sideMenu.close()">
-          <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Profile</ion-label>
-        </ion-item>
-        <!-- <ion-item *ngIf="loggedIn" routerLink="/notifications" (click)="sideMenu.close()">
-          <ion-icon name="notifications-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Notifications</ion-label>
-        </ion-item> -->
         <ion-item routerLink="/about" (click)="sideMenu.close()">
           <ion-icon name="bonfire-outline" slot="start" color="primary"></ion-icon>
           <ion-label>About</ion-label>
@@ -32,6 +37,25 @@
           <ion-label>Share</ion-label>
         </ion-item>
       </ion-list>
+
+      <hr style="border-top: 2px solid var(--ion-color-primary);">
+
+      <div style="padding: 1em">
+        <ion-text color="dark">
+          <h4>Salmon Fun Fact</h4>
+        </ion-text>
+        <ion-text color="medium" style="font-size: 0.8em;">
+          <p>"Pink salmon are the smallest and most abundant species and Chinook salmon are the largest (exceeding 50 kilos) but least abundant species.  Interestingly, they have exactly the same number of scales."</p>
+        </ion-text>
+      </div>
+
+      <div style="padding: 1em">
+        <ion-text *ngIf="auth.user$ | async as user" color="medium" style="font-size: 0.75em;">
+          <p>Thanks for being a member since {{ user.createdAt | date:'shortDate' }}</p>
+          <p>Signed in with {{ user.provider | titlecase }} ({{ user.email }})</p>
+        </ion-text>      
+      </div>
+
     </ion-content>
   </ion-menu>
 
