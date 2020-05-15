@@ -36,8 +36,4 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  edit() {
-    this.router.navigateByUrl('/');
-  }
-
 }
