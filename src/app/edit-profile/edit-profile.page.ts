@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SEOService } from '../services/seo.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -10,11 +11,13 @@ export class EditProfilePage implements OnInit {
   userForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private seo: SEOService
   ) { }
 
   ngOnInit() {
     this.createForm();
+    this.seo.updateTags({});
   }
 
   createForm() {

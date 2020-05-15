@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { SEOService } from '../services/seo.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
   profileUser$: Observable<any>;
-  editable: boolean;s
+  editable: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private seo: SEOService
   ) { }
 
   ngOnInit() {
@@ -34,6 +36,17 @@ export class ProfilePage implements OnInit {
     } else if (randy > 0.2) {
       this.editable = true;
     }
+
+    this.seo.updateTags({
+      title: 'Username - Salmon',
+      description: 'Usernames salmon profile',
+      url: 'https://theartofcookingsalmon/dummy-user',
+      imageUrl: ''
+    });
+  }
+
+  ngOnDestroy() {
+    this.seo.updateTags({});
   }
 
 }

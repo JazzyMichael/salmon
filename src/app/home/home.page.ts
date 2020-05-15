@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SEOService } from '../services/seo.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +10,12 @@ export class HomePage implements OnInit {
   sort: string;
   posts: any[];
 
-  constructor() { }
+  constructor(
+    private seo: SEOService
+  ) { }
 
   ngOnInit() {
+    console.log('home init');
     this.sort = 'recent';
     this.posts = new Array(20);
     const posty = {
@@ -21,6 +25,11 @@ export class HomePage implements OnInit {
       thumbnailUrl: 'assets/test-salmon-vertical.jpg'
     };
     this.posts.fill(posty);
+  }
+
+  ionViewDidEnter() {
+    console.log('home view');
+    this.seo.updateTags({});
   }
 
   changeSort() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SEOService } from '../services/seo.service';
 
 @Component({
   selector: 'app-new-post',
@@ -12,11 +13,13 @@ export class NewPostPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private seo: SEOService
   ) { }
 
   ngOnInit() {
     this.buildForm();
+    this.seo.updateTags({});
   }
 
   buildForm() {

@@ -39,10 +39,6 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
-    path: 'edit-post',
-    loadChildren: () => import('./edit-post/edit-post.module').then( m => m.EditPostPageModule)
-  },
-  {
     path: 'edit-profile',
     loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   },

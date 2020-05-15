@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SEOService } from '../services/seo.service';
 
 @Component({
   selector: 'app-privacy',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrivacyPage implements OnInit {
 
-  constructor() { }
+  constructor(private seo: SEOService) { }
 
   ngOnInit() {
+    this.seo.updateTags({});
   }
 
 }
