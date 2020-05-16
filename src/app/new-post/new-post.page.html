@@ -20,7 +20,7 @@
     </ion-fab-button>
   </label>
   <input
-    *ngIf="images?.length >= 5"
+    *ngIf="!(images?.length >= 5)"
     id="image-upload"  
     type="file"
     accept="image/*"
