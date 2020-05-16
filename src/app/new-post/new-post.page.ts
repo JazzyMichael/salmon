@@ -30,6 +30,16 @@ export class NewPostPage implements OnInit {
     });
   }
 
+  addImage(event: any) {
+    const file = event.target.files[0];
+    console.log(file);
+
+    if (file.type.split('/')[0] !== 'image') {
+      console.log('only imgs dood');
+      return;
+    }
+  }
+
   submit() {
     const newPost = {
       title: this.postForm.value.title.trim(),

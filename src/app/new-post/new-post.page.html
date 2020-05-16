@@ -9,9 +9,17 @@
 
 <ion-content>
 
-  <ion-fab-button style="margin: 2em auto">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
+  <label for="image-upload">
+    <ion-fab-button for="image-upload" style="margin: 2em auto">
+      <ion-icon name="add" style="padding: 18px; transform: scale(1.5);"></ion-icon>
+    </ion-fab-button>
+  </label>
+  <input
+    id="image-upload"  
+    type="file"
+    accept="image/*"
+    style="display: none"
+    (change)="addImage($event)" >
 
   <p style="text-align: center;"><i>*Must have 1-5 images</i></p>
 
