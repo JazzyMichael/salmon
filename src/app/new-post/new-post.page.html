@@ -10,30 +10,31 @@
 <ion-content>
 
   <label for="image-upload">
-    <ion-fab-button for="image-upload" style="margin: 2em auto">
+    <ion-fab-button [disabled]="images?.length >= 5" style="margin: 2em auto">
       <ion-icon name="add" style="padding: 18px; transform: scale(1.5);"></ion-icon>
     </ion-fab-button>
   </label>
   <input
+    *ngIf="images?.length >= 5"
     id="image-upload"  
     type="file"
     accept="image/*"
     style="display: none"
     (change)="addImage($event)" >
 
-  <p style="text-align: center;"><i>*Must have 1-5 images</i></p>
+  <p style="text-align: center;"><i>*Add up to 5 images</i></p>
 
-  <br><br><br><br>
+  <ion-list *ngIf="images?.length">
+    <ion-reorder-group (ionItemReorder)="onReorder($event)" disabled="false">
+      <ion-item *ngFor="let img of images; index as i" lines="none">
+        <img height="100" [src]="img.preview" alt="Image Preview">
+        <ion-icon style="margin-left: 8px" color="danger" name="trash" (click)="images.splice(i, 1)"></ion-icon>
+        <ion-reorder *ngIf="images.length > 1" slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
 
-  <!--
-    TODO:
-    - upload image file with validation
-    - image previews
-      - re-order
-      - remove
-      - captions
-    - valid form control
-  -->
+  <br><br>
 
   <form [formGroup]="postForm">
     <ion-card>
