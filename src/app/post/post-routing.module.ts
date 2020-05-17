@@ -11,10 +11,6 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/tabs/home'
-  },
-  {
-    path: '**',
-    redirectTo: '/tabs/home'
   }
 ];
 

@@ -4,15 +4,22 @@
       <ion-back-button color="primary"></ion-back-button>
     </ion-buttons>
     <ion-title>Edit Profile</ion-title>
-    <ion-buttons slot="end">
-      <ion-button color="primary" routerLink="/username">
+    <ion-buttons *ngIf="auth.uid" slot="end">
+      <ion-button color="primary" [routerLink]="'/profile/' + auth.uid">
         <ion-icon slot="icon-only" name="eye"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="auth.user$ | async as user">
+
+  <div style="padding: 1em; text-align: center; font-size: 0.75em;">
+    <ion-text color="medium">
+      <p>Thanks {{ user.username}}, for being a member since {{ user.createdAt.toDate() | date:'shortDate' }}</p>
+      <p>Signed in with {{ user.authProvider.split('.')[0] | titlecase }} ({{ user.email }})</p>
+    </ion-text>
+  </div>
 
   <ion-card>
     <ion-card-content>
@@ -20,56 +27,54 @@
     </ion-card-content>
   </ion-card>
 
-  <form [formGroup]="userForm">
-    <ion-card>
-      <ion-card-content style="padding: 10px">
-        <ion-item lines="none">
-          <ion-label position="floating">Username</ion-label>
-          <ion-input formControlName="username" maxLength="24" required autocomplete="off"></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
+  <ion-card>
+    <ion-card-content style="padding: 10px">
+      <ion-item lines="none">
+        <ion-label position="floating">Username</ion-label>
+        <ion-input debounce="1000" maxLength="24" required autocomplete="off" (ionChange)="save(user.uid, 'username', $event.target.value)"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-card>
-      <ion-card-content style="padding: 10px">
-        <ion-item lines="none">
-          <ion-label position="floating">Location</ion-label>
-          <ion-input formControlName="location" maxLength="32" autocomplete="off"></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
+  <ion-card>
+    <ion-card-content style="padding: 10px">
+      <ion-item lines="none">
+        <ion-label position="floating">City, State, Country...</ion-label>
+        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'location', $event.target.value)"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-card>
-      <ion-card-content style="padding: 10px">
-        <ion-item lines="none">
-          <ion-label position="floating">Bio</ion-label>
-          <ion-textarea formControlName="bio" maxLength="360" rows="8" autocomplete="off"></ion-textarea>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
+  <ion-card>
+    <ion-card-content style="padding: 10px">
+      <ion-item lines="none">
+        <ion-label position="floating">Bio</ion-label>
+        <ion-textarea debounce="1000" maxLength="360" rows="8" autocomplete="off" (ionChange)="save(user.uid, 'bio', $event.target.value)"></ion-textarea>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-card>
-      <ion-card-header>Social Media Links</ion-card-header>
-      <ion-card-content style="padding: 10px">
-        <ion-item lines="none">
-          <ion-label position="floating">Instagram</ion-label>
-          <ion-input formControlName="instagramUrl" maxLength="32" autocomplete="off"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="floating">Twitter</ion-label>
-          <ion-input formControlName="twitterUrl" maxLength="32" autocomplete="off"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="floating">Facebook</ion-label>
-          <ion-input formControlName="facebookUrl" maxLength="32" autocomplete="off"></ion-input>
-        </ion-item>
-        <ion-item lines="none">
-          <ion-label position="floating">Other Link</ion-label>
-          <ion-input formControlName="otherLinkUrl" maxLength="32" autocomplete="off"></ion-input>
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
-  </form>
+  <ion-card>
+    <ion-card-header>Social Media Links</ion-card-header>
+    <ion-card-content style="padding: 10px">
+      <ion-item lines="none">
+        <ion-label position="floating">Instagram</ion-label>
+        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'instagramUrl', $event.target.value)"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="floating">Twitter</ion-label>
+        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'twitterUrl', $event.target.value)"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="floating">Facebook</ion-label>
+        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'facebookUrl', $event.target.value)"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="floating">Website</ion-label>
+        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'websiteUrl', $event.target.value)"></ion-input>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
   <br><br>
 

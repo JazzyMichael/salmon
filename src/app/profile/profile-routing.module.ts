@@ -5,8 +5,12 @@ import { ProfilePage } from './profile.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: ProfilePage
+  },
+  {
+    path: '',
+    redirectTo: '/tabs/home'
   }
 ];
 

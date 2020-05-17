@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { SEOService } from '../services/seo.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,38 +12,35 @@ import { SEOService } from '../services/seo.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit, OnDestroy {
-  profileUser$: Observable<any>;
-  editable: boolean;
+  user: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private seo: SEOService
+    private seo: SEOService,
+    private userService: UserService,
+    public auth: AuthService
   ) { }
 
   ngOnInit() {
-    // get param id (userUrl)
-    // redirect if no user
-    // get user by userUrl
-    this.profileUser$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        return of({ urlExtension: params.get('id') });
+    this.route.paramMap.pipe(
+      switchMap(params => of(params.get('id'))),
+      switchMap((userId: string) => this.userService.getById(userId)),
+      catchError(async (error: any) => {
+        console.log('Oops', error);
+        await this.router.navigateByUrl('/');
+        return of(null);
       })
-    );
+    ).subscribe((user: any) => {
+      if (!user) return this.router.navigateByUrl('/');
+      this.user = user;
 
-    const randy = Math.random();
-    if (randy > 0.75) {
-      console.log('that user does not exist');
-      this.router.navigateByUrl('/about');
-    } else if (randy > 0.2) {
-      this.editable = true;
-    }
-
-    this.seo.updateTags({
-      title: 'Username - Salmon',
-      description: 'Usernames salmon profile',
-      url: 'https://theartofcookingsalmon/dummy-user',
-      imageUrl: ''
+      this.seo.updateTags({
+        title: `${user.username} Salmon`,
+        description: `The Art of Cooking Salmon presents ${user.username}! ${user.bio} ${user.location}`,
+        url: `https://theartofcookingsalmon/profile/${user.uid}`,
+        imageUrl: user.avatar || ''
+      });
     });
   }
 

@@ -15,7 +15,6 @@ export class HomePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('home init');
     this.sort = 'recent';
     this.posts = new Array(20);
     const posty = {
@@ -28,7 +27,7 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log('home view');
+    console.log('home view did enter');
     this.seo.updateTags({});
   }
 

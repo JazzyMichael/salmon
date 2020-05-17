@@ -3,58 +3,55 @@
     <ion-buttons slot="start">
       <ion-back-button color="primary"></ion-back-button>
     </ion-buttons>
-    <ion-title>Username</ion-title>
+    <ion-title>{{ user?.username }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button *ngIf="editable" color="primary" routerLink="/edit-profile">
+      <ion-button *ngIf="user && user.uid && auth.uid && user.uid === auth.uid; else notEditable" color="primary" routerLink="/edit-profile">
         <ion-icon slot="icon-only" name="pencil"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="!editable" color="primary" routerLink="/">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
+      <ng-template #notEditable>
+        <ion-button color="primary" routerLink="/">
+          <ion-icon slot="icon-only" name="home"></ion-icon>
+        </ion-button>
+      </ng-template>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="profileUser$ | async as profile">
-
-  <div *ngIf="editable" style="padding: 1em; text-align: center;">
-    <ion-text color="medium" style="font-size: 0.75em;">
-      <!-- <p>Thanks for being a member since {{ user.createdAt | date:'shortDate' }}</p>
-      <p>Signed in with {{ user.provider | titlecase }} ({{ user.email }})</p> -->
-      <p>Thanks for being a member since 5/23/20</p>
-      <p>Signed in with Google (beepboop@computer.com)</p>
-    </ion-text>
-  </div>
+<ion-content *ngIf="user">
 
   <ion-card class="profile-card">
     <div class="profile-avatar" [ngStyle]="{ 'background-image': 'url(' + 'assets/test-salmon-horizontal.jpg' + ')' }"></div>
     <div class="profile-info">
       <ion-text color="dark">
-        <h2>User Name Here</h2>
+        <h2>{{ user.username }}</h2>
         <p>
           <a href="https://caronabalona.com">caronabalona.com</a>
         </p>
       </ion-text>
     </div>
+    <!--
+      TODO: add social media links
+    -->
   </ion-card>
 
   <ion-card class="description-card" style="border-bottom: 8px solid var(--ion-color-primary);">
     <ion-card-content>
+      <p>{{ user.bio }}</p>
       <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi voluptatibus optio saepe doloribus cupiditate esse odit quaerat nulla fuga alias quo provident soluta veniam ducimus hic, quisquam explicabo eius. Quia?</p>
     </ion-card-content>
   </ion-card>
 
-  <h2 (click)="editable = !editable" style="margin-left: 1em; margin-top: 2em;">2 Posts</h2>
+  <h2 style="margin-left: 1em; margin-top: 2em;">{{ user.postCount }} Posts</h2>
 
   <ion-card>
     <ion-card-content>
-      <p>Posty post post</p>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt illo fuga itaque error magnam, odio explicabo culpa ipsam vero debitis quas dolores nam voluptas quam animi maxime nisi, autem repellat!</p>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-content>
-      <p>Posty post post</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga quis magni aperiam nulla adipisci? Eveniet porro animi praesentium quod repellendus nostrum labore incidunt temporibus dolores, illo laudantium, ea non modi.</p>
     </ion-card-content>
   </ion-card>
 
