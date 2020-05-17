@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { SEOService } from '../services/seo.service';
 
@@ -7,7 +7,7 @@ import { SEOService } from '../services/seo.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthService,
@@ -22,12 +22,16 @@ export class LoginPage implements OnInit {
     });
   }
 
-  appleLogin() {
-    this.auth.login();
+  ngOnDestroy() {
+    this.seo.updateTags({});
   }
 
-  googleLogin() {
-    this.auth.login();
+  async appleLogin() {
+    await this.auth.appleLogin();
+  }
+
+  async googleLogin() {
+    await this.auth.googleLogin();
   }
 
 }

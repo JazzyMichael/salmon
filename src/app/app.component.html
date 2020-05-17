@@ -14,7 +14,7 @@
               <p>{{ user.username }}</p>
             </ion-text>
             <ion-text color="medium">
-              <p>{{ user.likeCount }} likes from {{ user.postCount }} posts</p>
+              <p>{{ user.postCount }} posts</p>
             </ion-text>
           </ion-label>
         </ion-item>
@@ -46,6 +46,13 @@
           <p>"Pink salmon are the smallest and most abundant species and Chinook salmon are the largest (exceeding 50 kilos) but least abundant species.  Interestingly, they have exactly the same number of scales."</p>
         </ion-text>
       </div>
+
+      <ion-button
+        *ngIf="auth.user$ | async"
+        (click)="auth.logout()"
+        style="display: block; margin: 2em auto 0; max-width: 69%;">
+        Logout
+      </ion-button>
 
     </ion-content>
   </ion-menu>
