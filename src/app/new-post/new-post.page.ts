@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SEOService } from '../services/seo.service';
+import { ToastController } from '@ionic/angular';
+import { PostService } from '../services/post.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-new-post',
@@ -15,7 +18,10 @@ export class NewPostPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private seo: SEOService
+    private toast: ToastController,
+    private seo: SEOService,
+    private postService: PostService,
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
@@ -64,20 +70,31 @@ export class NewPostPage implements OnInit {
     event.detail.complete();
   }
 
-  submit() {
+  async submit() {
+    const userId = this.auth.uid;
+    if (!userId) return;
+
     const newPost = {
       title: this.postForm.value.title.trim(),
-      location: `${this.postForm.value.location}`.trim(),
-      description: `${this.postForm.value.description}`.trim(),
-      userId: 'uid123',
+      location: `${this.postForm.value.location || ''}`.trim(),
+      description: `${this.postForm.value.description || ''}`.trim(),
+      userId,
       createdAt: new Date(),
       likes: 0,
       images: []
     };
-    console.log(newPost);
+
+    const { id } = await this.postService.create(newPost);
+
     this.postForm.reset();
-    const postUrl = '/';
-    this.router.navigateByUrl(postUrl);
+
+    const toasty = await this.toast.create({
+      message: 'Your Salmon has been published!',
+      duration: 3000
+    });
+    toasty.present();
+
+    this.router.navigateByUrl(`/post/${id}`);
   }
 
 }

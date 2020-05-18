@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button color="primary"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-wrap">Post Title even if Its a long one like this</ion-title>
+    <ion-title>{{ post && post.title ? post.title : 'Salmon' }}</ion-title>
     <ion-buttons *ngIf="editable" slot="end">
       <ion-button color="primary" (click)="edit()">
         <ion-icon slot="icon-only" name="pencil"></ion-icon>
@@ -12,42 +12,40 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="post$ | async as postId">
+<ion-content *ngIf="post">
 
   <ion-card>
     <ion-slides pager="true" [options]="slideOpts">
       <ion-slide style="display: flex; flex-direction: column; max-height: 90vh;">
-        <img src="../../assets/test-salmon-horizontal.jpg"/>
-        <p style="margin-bottom: 2em">Aye my man this a caption. Butter, salt, pepper, oil, basil, mmmm!</p>
+        <img src="../../assets/test-salmon-horizontal.jpg" style="margin-bottom: 2em"/>
       </ion-slide>
 
       <ion-slide style="display: flex; flex-direction: column; max-height: 90vh;">
-        <img src="../../assets/test-salmon-vertical.jpg"/>
-        <p style="margin-bottom: 2em"></p>
+        <img src="../../assets/test-salmon-vertical.jpg" style="margin-bottom: 2em"/>
       </ion-slide>
     </ion-slides>
   </ion-card>
 
   <div style="padding: 1em;">
     <ion-text color="dark">
-      <h1>Post Title even if Its a long one like this</h1>
+      <h1>{{ post.title }}</h1>
     </ion-text>
     <ion-text color="medium">
       <p style="display: flex; justify-content: space-between;">
-        <span routerLink="'/profile/' + 'userid'">Poster Username</span>
-        <span>{{ testDate | date:'shortDate' }} {{ true ? 'Philadelphia' : '' }}</span>
+        <span routerLink="'/profile/' + post.userId">Username</span>
+        <span>{{ post.createdAt.toDate() | date:'shortDate' }} {{ post.location ? post.location : '' }}</span>
       </p>
     </ion-text>
   </div>
 
-  <ion-card (click)="editable = !editable">
+  <ion-card *ngIf="post.description">
     <ion-card-content>
-      <p>Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus cumque beatae nihil natus ea perspiciatis tenetur officiis autem earum excepturi nostrum alias maxime dignissimos vel possimus voluptatum, eius sint! Corporis.</p>
+      <p>{{ post.description }}</p>
     </ion-card-content>
   </ion-card>
 
   <ion-button routerLink="/" style="margin: 2em auto; display: block; max-width: 250px;">
-    <ion-icon name="restaurant" slot="start" style="margin-right: 12px"></ion-icon>
+    <ion-icon slot="start" style="transform: scale(1.25); margin-right: 16px;" src="../../assets/salmon-icon.svg"></ion-icon>
     View All Salmon
   </ion-button>
 

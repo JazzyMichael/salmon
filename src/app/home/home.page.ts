@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SEOService } from '../services/seo.service';
+import { PostService } from '../services/post.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -8,22 +10,16 @@ import { SEOService } from '../services/seo.service';
 })
 export class HomePage implements OnInit {
   sort: string;
-  posts: any[];
+  posts$: Observable<any[]>;
 
   constructor(
-    private seo: SEOService
+    private seo: SEOService,
+    private postService: PostService
   ) { }
 
   ngOnInit() {
     this.sort = 'recent';
-    this.posts = new Array(20);
-    const posty = {
-      id: 'potato1234shh',
-      title: 'Simple Fried Salmon on tin foil',
-      description: 'daj adk foi blaidu bneja; iw oewefd',
-      thumbnailUrl: 'assets/test-salmon-vertical.jpg'
-    };
-    this.posts.fill(posty);
+    this.posts$ = this.postService.getAll(this.sort);
   }
 
   ionViewDidEnter() {
@@ -33,6 +29,7 @@ export class HomePage implements OnInit {
 
   changeSort() {
     this.sort = this.sort === 'recent' ? 'top' : 'recent';
+    this.posts$ = this.postService.getAll(this.sort);
   }
 
 }
