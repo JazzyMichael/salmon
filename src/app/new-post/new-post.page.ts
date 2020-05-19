@@ -5,6 +5,8 @@ import { SEOService } from '../services/seo.service';
 import { ToastController } from '@ionic/angular';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-new-post',
@@ -21,7 +23,9 @@ export class NewPostPage implements OnInit {
     private toast: ToastController,
     private seo: SEOService,
     private postService: PostService,
-    private auth: AuthService
+    private auth: AuthService,
+    private sanitizer: DomSanitizer,
+    private fireStorage: AngularFireStorage
   ) { }
 
   ngOnInit() {
@@ -41,18 +45,15 @@ export class NewPostPage implements OnInit {
   addImage(event: any) {
     const file = event.target.files[0];
 
-    if (file.type.split('/')[0] !== 'image') {
-      console.log('only imgs dood');
+    if (!file || file.type.split('/')[0] !== 'image' || file.size / 1024 / 1024 > 24) {
+      console.log('only small imgs dood');
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (e: any) => {
-      this.images.push({
-        a: this.images.length,
-        file,
-        preview: e.target.result
-      });
+      const preview = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
+      this.images.push({ file, preview });
     };
     reader.readAsDataURL(file);
   }
@@ -66,13 +67,31 @@ export class NewPostPage implements OnInit {
     const temp = this.images[to];
     this.images[to] = this.images[from];
     this.images[from] = temp;
-    console.log(`reorder from ${from} to ${to}`, this.images);
     event.detail.complete();
   }
 
   async submit() {
     const userId = this.auth.uid;
     if (!userId) return;
+
+    const imgUploads = [];
+
+    for (const [index, img] of this.images.entries()) {
+      const path = `posts/${userId}/` + Math.random().toString().slice(3, 11) + `.${img.file.type.split('/')[1]}`;
+      this.images[index].path = path;
+      const task = this.fireStorage.upload(path, img.file);
+      imgUploads.push(task);
+    }
+
+    const uploaded = await Promise.all(imgUploads);
+
+    const imgUrls = [];
+
+    for (const img of this.images) {
+      const storageRef = this.fireStorage.ref(img.path);
+      const downloadUrl = await storageRef.getDownloadURL().toPromise();
+      imgUrls.push(downloadUrl);
+    }
 
     const newPost = {
       title: this.postForm.value.title.trim(),
@@ -81,7 +100,7 @@ export class NewPostPage implements OnInit {
       userId,
       createdAt: new Date(),
       likes: 0,
-      images: []
+      images: imgUrls
     };
 
     const { id } = await this.postService.create(newPost);
@@ -89,12 +108,12 @@ export class NewPostPage implements OnInit {
     this.postForm.reset();
 
     const toasty = await this.toast.create({
-      message: 'Your Salmon has been published!',
+      message: 'Your Salmon has been published and it looks great!',
       duration: 3000
     });
     toasty.present();
 
-    this.router.navigateByUrl(`/post/${id}`);
+    await this.router.navigateByUrl(`/post/${id}`);
   }
 
 }
