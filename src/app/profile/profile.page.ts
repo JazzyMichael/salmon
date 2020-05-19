@@ -5,6 +5,7 @@ import { switchMap, catchError } from 'rxjs/operators';
 import { SEOService } from '../services/seo.service';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
+import { PostService } from '../services/post.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,13 +14,15 @@ import { AuthService } from '../services/auth.service';
 })
 export class ProfilePage implements OnInit, OnDestroy {
   user: any;
+  userPosts$: Observable<any[]>;
 
   constructor(
+    public auth: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private seo: SEOService,
     private userService: UserService,
-    public auth: AuthService
+    private postService: PostService
   ) { }
 
   ngOnInit() {
@@ -34,6 +37,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     ).subscribe((user: any) => {
       if (!user) return this.router.navigateByUrl('/');
       this.user = user;
+
+      this.userPosts$ = this.postService.getByUserId(user.uid);
 
       this.seo.updateTags({
         title: `${user.username} Salmon`,

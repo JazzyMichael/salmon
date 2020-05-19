@@ -11,3 +11,16 @@
 .profile-info {
     padding: 1em;
 }
+
+.post-list {
+    width: 100%;
+    max-width: 666px;
+    margin: auto;
+}
+
+.post-img {
+    height: 33vh;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+}

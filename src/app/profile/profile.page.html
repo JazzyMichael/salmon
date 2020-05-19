@@ -43,16 +43,13 @@
 
   <h2 style="margin-left: 1em; margin-top: 2em;">{{ user.postCount }} Posts</h2>
 
-  <ion-card>
-    <ion-card-content>
-      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nesciunt illo fuga itaque error magnam, odio explicabo culpa ipsam vero debitis quas dolores nam voluptas quam animi maxime nisi, autem repellat!</p>
-    </ion-card-content>
-  </ion-card>
+  <div class="post-list">
+    <ion-card *ngFor="let post of userPosts$ | async" [routerLink]="'/post/' + post.id">
+      <div class="post-img" [ngStyle]="{ 'background-image': 'url(' + post.images[0] + ')' }"></div>
+      <ion-card-content>{{ post.title }}</ion-card-content>
+    </ion-card>
+  </div>
 
-  <ion-card>
-    <ion-card-content>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga quis magni aperiam nulla adipisci? Eveniet porro animi praesentium quod repellendus nostrum labore incidunt temporibus dolores, illo laudantium, ea non modi.</p>
-    </ion-card-content>
-  </ion-card>
+  <br>
 
 </ion-content>

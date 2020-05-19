@@ -25,6 +25,12 @@ export class PostService {
     return this.fireStore.doc(`posts/${id}`).valueChanges();
   }
 
+  getByUserId(userId: string) {
+    return this.fireStore
+      .collection('posts', ref => ref.where('userId', '==', userId))
+      .valueChanges({ idField: 'id' });
+  }
+
   create(post: any) {
     return this.fireStore.collection('posts').add(post);
   }
