@@ -12,7 +12,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="loading">
+  <h2 style="text-align: center; margin-top: 3em">Uploading your Salmon</h2>
+  <ion-spinner name="dots" color="primary" style="margin: 2em auto; transform: scale(2); display: block;"></ion-spinner>
+</ion-content>
+
+<ion-content *ngIf="!loading">
 
   <label for="image-upload">
     <ion-fab-button [disabled]="images?.length >= 5" style="margin: 2em auto">

@@ -16,12 +16,8 @@
 
   <ion-card>
     <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide style="display: flex; flex-direction: column; max-height: 90vh;">
-        <img src="../../assets/test-salmon-horizontal.jpg" style="margin-bottom: 2em"/>
-      </ion-slide>
-
-      <ion-slide style="display: flex; flex-direction: column; max-height: 90vh;">
-        <img src="../../assets/test-salmon-vertical.jpg" style="margin-bottom: 2em"/>
+      <ion-slide *ngFor="let imageUrl of post.images" style="display: flex; flex-direction: column; max-height: 90vh;">
+        <img [src]="imageUrl" style="margin-bottom: 2em"/>
       </ion-slide>
     </ion-slides>
   </ion-card>

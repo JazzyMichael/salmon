@@ -16,6 +16,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class NewPostPage implements OnInit {
   postForm: FormGroup;
   images: any[];
+  loading: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +40,11 @@ export class NewPostPage implements OnInit {
       location: [''],
       description: ['']
     });
+    this.images = [];
+  }
+
+  resetForm() {
+    this.postForm.reset();
     this.images = [];
   }
 
@@ -74,6 +80,8 @@ export class NewPostPage implements OnInit {
     const userId = this.auth.uid;
     if (!userId) return;
 
+    this.loading = true;
+
     const imgUploads = [];
 
     for (const [index, img] of this.images.entries()) {
@@ -105,7 +113,8 @@ export class NewPostPage implements OnInit {
 
     const { id } = await this.postService.create(newPost);
 
-    this.postForm.reset();
+    this.resetForm();
+    this.loading = false;
 
     const toasty = await this.toast.create({
       message: 'Your Salmon has been published and it looks great!',
