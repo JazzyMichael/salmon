@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
-
+import { Component, HostListener } from '@angular/core';
 import { Platform, ToastController } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
 import { Plugins } from '@capacitor/core';
+import { SwUpdate } from '@angular/service-worker';
 
 const { Storage, Share, Clipboard } = Plugins;
 
@@ -15,22 +13,22 @@ const { Storage, Share, Clipboard } = Plugins;
 })
 export class AppComponent {
   darkMode: boolean;
+  deferredPrompt: any;
 
   constructor(
+    public auth: AuthService,
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private toaster: ToastController,
-    public auth: AuthService
+    private swUpdates: SwUpdate
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
+    // this.platform.ready().then(() => {
+    //   this.statusBar.styleDefault();
+    //   this.splashScreen.hide();
+    // });
 
     Storage.get({ key: 'darkMode' }).then(val => {
       if (val) {
@@ -38,6 +36,28 @@ export class AppComponent {
         document.body.classList.add('dark');
       }
     });
+
+    this.swUpdates.available.subscribe(event => {
+      this.swUpdates.activateUpdate()
+        .then(() => document.location.reload())
+        .catch(e => console.log('error updating app', e));
+    });
+  }
+
+  @HostListener('window:beforeinstallprompt', ['$event'])
+  onbeforeinstallprompt(e: any) {
+    e.preventDefault();
+    this.deferredPrompt = e;
+  }
+
+  async installPWA() {
+    this.deferredPrompt.prompt();
+
+    const { outcome } = await this.deferredPrompt.userChoice;
+
+    if (outcome === 'accepted') {
+      this.deferredPrompt = null;
+    }
   }
 
   async toggleDarkMode() {
