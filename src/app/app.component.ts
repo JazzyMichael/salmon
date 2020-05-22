@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth.service';
+import { Plugins } from '@capacitor/core';
+
+const { Storage, Share, Clipboard } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -17,6 +20,7 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
+    private toaster: ToastController,
     public auth: AuthService
   ) {
     this.initializeApp();
@@ -28,22 +32,43 @@ export class AppComponent {
       this.splashScreen.hide();
     });
 
-    this.setDarkMode();
+    Storage.get({ key: 'darkMode' }).then(val => {
+      if (val) {
+        this.darkMode = true;
+        document.body.classList.add('dark');
+      }
+    });
   }
 
-  setDarkMode() {
-    this.darkMode = !!localStorage.getItem('darkMode');
-    if (this.darkMode) {
-      document.body.classList.add('dark');
-    }
-  }
-
-  toggleDarkMode() {
+  async toggleDarkMode() {
     const isDark = document.body.classList.toggle('dark');
     if (isDark) {
-      localStorage.setItem('darkMode', 'enabled');
+      await Storage.set({ key: 'darkMode', value: 'enabled' });
     } else {
-      localStorage.removeItem('darkMode');
+      await Storage.remove({ key: 'darkMode' });
     }
   }
+
+  async share() {
+    try {
+      await Share.share({
+        title: 'The Art of Cooking Salmon',
+        text: 'Beautiful & tasty, Lets Eat! Share your Salmon at The Art of Cooking Salmon .com! ',
+        url: 'http://theartofcookingsalmon.com/',
+        dialogTitle: 'Share'
+      });
+    } catch (e) {
+      // desktop
+      await Clipboard.write({
+        string: 'https://theartofcookingsalmon.com'
+      });
+      const toast = await this.toaster.create({
+        message: 'Link Copied :)',
+        duration: 2345,
+        position: 'top'
+      });
+      toast.present();
+    }
+  }
+
 }
