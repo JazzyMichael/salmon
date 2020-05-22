@@ -80,7 +80,7 @@ export class PostPage implements OnInit, OnDestroy {
       message: 'Are you sure?',
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Delete', handler: this.delete }
+        { text: 'Delete', handler: async () => { await this.delete(); return true; } }
       ]
     });
     await alert.present();

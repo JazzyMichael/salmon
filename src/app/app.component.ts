@@ -26,8 +26,8 @@ export class AppComponent {
 
   initializeApp() {
     // this.platform.ready().then(() => {
-    //   this.statusBar.styleDefault();
-    //   this.splashScreen.hide();
+    //    - set status bar
+    //    - hide splash screen
     // });
 
     Storage.get({ key: 'darkMode' }).then(val => {
