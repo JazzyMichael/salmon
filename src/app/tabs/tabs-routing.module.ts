@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from '../auth.guard';
 
 const routes: Routes = [
   {
@@ -9,6 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'favorites',
+        canActivate: [AuthGuard],
         loadChildren: () => import('../favorites/favorites.module').then(m => m.FavoritesPageModule)
       },
       {
@@ -17,6 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'new',
+        canActivate: [AuthGuard],
         loadChildren: () => import('../new-post/new-post.module').then(m => m.NewPostPageModule)
       },
       {

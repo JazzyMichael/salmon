@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'new-post',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./new-post/new-post.module').then( m => m.NewPostPageModule)
   },
   {
@@ -32,6 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'favorites',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
   },
   {
@@ -40,6 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'edit-profile',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)
   },
   {
