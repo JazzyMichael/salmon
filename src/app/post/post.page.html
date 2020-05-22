@@ -5,8 +5,8 @@
     </ion-buttons>
     <ion-title>{{ post && post.title ? post.title : 'Salmon' }}</ion-title>
     <ion-buttons *ngIf="editable" slot="end">
-      <ion-button color="primary" (click)="edit()">
-        <ion-icon slot="icon-only" name="pencil"></ion-icon>
+      <ion-button color="primary" (click)="showActionSheet()">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
