@@ -37,10 +37,18 @@ export class AppComponent {
       }
     });
 
-    this.swUpdates.available.subscribe(event => {
-      this.swUpdates.activateUpdate()
-        .then(() => document.location.reload())
-        .catch(e => console.log('error updating app', e));
+    this.swUpdates.available.subscribe(async event => {
+
+      const toast = await this.toaster.create({
+        position: 'top', message: 'Updating...'
+      });
+
+      toast.present();
+
+      await this.swUpdates.activateUpdate();
+
+      document.location.reload();
+
     });
   }
 

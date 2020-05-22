@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, catchError } from 'rxjs/operators';
 import { SEOService } from '../services/seo.service';
@@ -63,8 +63,15 @@ export class PostPage implements OnInit, OnDestroy {
     console.log('edited!');
   }
 
-  delete() {
-    console.log('deleted!');
+  async delete() {
+    await this.postService.delete(this.post.id);
+    const toast = await this.toaster.create({
+      message: 'Deleted',
+      duration: 2345,
+      position: 'top'
+    });
+    toast.present();
+    await this.router.navigateByUrl('/');
   }
 
   async showDeleteConfirmation() {

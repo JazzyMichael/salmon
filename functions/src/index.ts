@@ -35,13 +35,31 @@ export const createUser = functions.auth.user().onCreate(async (user: admin.auth
     await db.doc(`users/${user.uid}`).set(newUser);
 });
 
+export const createPost = functions.firestore
+    .document('posts/{postId}')
+    .onCreate((snap, context) => {
+        const post = snap.data();
+        if (!post || !post.userId) throw new Error('Invalid Post');
+        const increment = admin.firestore.FieldValue.increment(1);
+        return db.doc(`users/${post.userId}`).update({ postCount: increment });
+    });
+
+export const deletePost = functions.firestore
+    .document('posts/{postId}')
+    .onDelete((snap, context) => {
+        const post = snap.data();
+        if (!post || !post.userId) throw new Error('Invalid Post');
+        const decrement = admin.firestore.FieldValue.increment(-1);
+        return db.doc(`users/${post.userId}`).update({ postCount: decrement });
+    });
+
+
+
+
+
+
 // Coming up next...
 
-// createPost
-//   - increment user postCount
-
-// deletePost
-//   - decrement user postCount
 
 // likePost
 //   - increment post likes
