@@ -20,24 +20,31 @@
 <ion-content *ngIf="user">
 
   <ion-card class="profile-card">
-    <div class="profile-avatar" [ngStyle]="{ 'background-image': 'url(' + 'assets/test-salmon-horizontal.jpg' + ')' }"></div>
+    <div class="profile-avatar" [ngStyle]="{ 'background-image': 'url(' + 'assets/salmon-bg-with-text.jpg' + ')' }"></div>
     <div class="profile-info">
-      <ion-text color="dark">
-        <h2>{{ user.username }}</h2>
-        <p>
-          <a href="https://caronabalona.com">caronabalona.com</a>
-        </p>
-      </ion-text>
+      <h2>{{ user.username }}</h2>
+
+      <ion-buttons color="primary" style="justify-content: space-around;">
+        <ion-button (click)="socialClick(user.websiteUrl)">
+          <ion-icon name="desktop-outline" slot="icon-only" size="small"></ion-icon>
+        </ion-button>
+        <ion-button (click)="socialClick(user.instagramUrl)">
+          <ion-icon name="logo-instagram" slot="icon-only" size="small"></ion-icon>
+        </ion-button>
+        <ion-button (click)="socialClick(user.twitterUrl)">
+          <ion-icon name="logo-twitter" slot="icon-only" size="small"></ion-icon>
+        </ion-button>
+        <ion-button (click)="socialClick(user.facebookUrl)">
+          <ion-icon name="logo-facebook" slot="icon-only" size="small"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </div>
-    <!--
-      TODO: add social media links
-    -->
   </ion-card>
 
   <ion-card class="description-card" style="border-bottom: 8px solid var(--ion-color-primary);">
     <ion-card-content>
-      <p>{{ user.bio }}</p>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi voluptatibus optio saepe doloribus cupiditate esse odit quaerat nulla fuga alias quo provident soluta veniam ducimus hic, quisquam explicabo eius. Quia?</p>
+      <p *ngIf="user.bio">{{ user.bio }}</p>
+      <p *ngIf="!user.bio">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi voluptatibus optio saepe doloribus cupiditate esse odit quaerat nulla fuga alias quo provident soluta veniam ducimus hic, quisquam explicabo eius. Quia?</p>
     </ion-card-content>
   </ion-card>
 

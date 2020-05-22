@@ -53,4 +53,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.seo.updateTags({});
   }
 
+  socialClick(link: string) {
+    console.log('navigate to ', link);
+  }
+
 }

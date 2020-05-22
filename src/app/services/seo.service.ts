@@ -8,7 +8,7 @@ export class SEOService {
   default: any = {
     title: 'Salmon',
     description: 'The Art of Cooking Salmon - Praise this beautiful & tasty fish!',
-    imageUrl: 'https://theartofcookingsalmon.com/assets/test-salmon-horizontal.jpg',
+    imageUrl: 'https://theartofcookingsalmon.com/assets/salmon-bg-with-text.jpg',
     url: 'https://theartofcookingsalmon.com'
   };
 
