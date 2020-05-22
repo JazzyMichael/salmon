@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, tap } from 'rxjs/operators';
 import { SEOService } from '../services/seo.service';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
@@ -19,6 +19,7 @@ const { Storage, Share, Clipboard } = Plugins;
 })
 export class PostPage implements OnInit, OnDestroy {
   post: any;
+  postId: string;
   editable: boolean;
   slideOpts: any = {
     autoHeight: true
@@ -39,11 +40,13 @@ export class PostPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.paramMap.pipe(
       switchMap(params => of(params.get('id'))),
+      tap(id => this.postId = id),
       switchMap(id => this.postService.getById(id)),
       catchError(error => of(this.router.navigateByUrl('/')))
     )
     .subscribe(post => {
       console.log(post);
+      if (!post) return;
       this.post = post;
       this.editable = this.post && this.post.userId && this.post.userId === this.auth.uid;
       this.seo.updateTags({
@@ -63,24 +66,26 @@ export class PostPage implements OnInit, OnDestroy {
     console.log('edited!');
   }
 
-  async delete() {
-    await this.postService.delete(this.post.id);
-    const toast = await this.toaster.create({
-      message: 'Deleted',
-      duration: 2345,
-      position: 'top'
-    });
-    toast.present();
-    await this.router.navigateByUrl('/');
-  }
-
   async showDeleteConfirmation() {
+    const self = this;
     const alert = await this.alertController.create({
       header: 'Delete this Post',
       message: 'Are you sure?',
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Delete', handler: async () => { await this.delete(); return true; } }
+        { text: 'Delete', handler: async () => {
+            console.log('deleting: ' + this.postId);
+            await this.postService.delete(this.postId);
+            const toast = await this.toaster.create({
+              message: 'Deleted',
+              duration: 2345,
+              position: 'top'
+            });
+            toast.present();
+            await this.router.navigateByUrl('/');
+            return true;
+          }
+        }
       ]
     });
     await alert.present();

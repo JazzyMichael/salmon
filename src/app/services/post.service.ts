@@ -27,7 +27,7 @@ export class PostService {
 
   getByUserId(userId: string) {
     return this.fireStore
-      .collection('posts', ref => ref.where('userId', '==', userId).orderBy('createdAt', 'desc'))
+      .collection('posts', ref => ref.where('userId', '==', userId))
       .valueChanges({ idField: 'id' });
   }
 
