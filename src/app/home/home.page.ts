@@ -23,7 +23,6 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log('home view did enter');
     this.seo.updateTags({});
   }
 

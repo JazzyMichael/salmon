@@ -45,7 +45,6 @@ export class PostPage implements OnInit, OnDestroy {
       catchError(error => of(this.router.navigateByUrl('/')))
     )
     .subscribe(post => {
-      console.log(post);
       if (!post) return;
       this.post = post;
       this.editable = this.post && this.post.userId && this.post.userId === this.auth.uid;

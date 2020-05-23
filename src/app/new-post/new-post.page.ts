@@ -8,6 +8,8 @@ import { AuthService } from '../services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/storage';
 
+import imageCompression from 'browser-image-compression';
+
 @Component({
   selector: 'app-new-post',
   templateUrl: './new-post.page.html',
@@ -48,7 +50,7 @@ export class NewPostPage implements OnInit {
     this.images = [];
   }
 
-  addImage(event: any) {
+  async addImage(event: any) {
     const file = event.target.files[0];
 
     if (!file || file.type.split('/')[0] !== 'image' || file.size / 1024 / 1024 > 24) {
@@ -56,12 +58,24 @@ export class NewPostPage implements OnInit {
       return;
     }
 
+    console.log(`original file size: ${file.size / 1024 / 1024} MB`);
+
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+
+    const compressedFile = await imageCompression(file, options);
+
+    console.log(`compressed file size: ${compressedFile.size / 1024 / 1024} MB`);
+
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const preview = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
-      this.images.push({ file, preview });
+      this.images.push({ file: compressedFile, preview });
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(compressedFile);
   }
 
   onReorder(event: any) {
