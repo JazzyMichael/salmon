@@ -14,24 +14,34 @@
 
 <ion-content *ngIf="auth.user$ | async as user">
 
-  <div style="padding: 1em; text-align: center; font-size: 0.75em;">
+  <div style="padding: 1em; text-align: center; font-size: 0.75em; margin-bottom: 60px;">
     <ion-text color="medium">
       <p>Thanks {{ user.username}}, for being a member since {{ user.createdAt.toDate() | date:'shortDate' }}</p>
       <p>Signed in with {{ user.authProvider.split('.')[0] | titlecase }} ({{ user.email }})</p>
     </ion-text>
   </div>
 
-  <ion-card>
-    <ion-card-content>
-      <p style="text-align: center;">+ Profile Picture +</p>
-    </ion-card-content>
-  </ion-card>
+  <div style="background-position: center; background-size: cover; height: 150px; width: 150px; margin: 2em auto; position: relative; border-radius: 10px;" [ngStyle]="{ 'background-image': 'url(' + user.avatar + ')' }">
+    <p *ngIf="!user.avatar">Choose Profile Picture</p>
+    <label for="image-upload">
+      <ion-fab-button style="position: absolute; top: -24px; right: -24px;">
+        <ion-icon name="pencil" style="padding: 18px; transform: scale(1.5);"></ion-icon>
+      </ion-fab-button>
+    </label>
+  </div>
+
+  <input
+    id="image-upload"  
+    type="file"
+    accept="image/*"
+    style="display: none"
+    (change)="changeAvatar($event, user.uid)" >
 
   <ion-card>
     <ion-card-content style="padding: 10px">
       <ion-item lines="none">
         <ion-label position="floating">Username</ion-label>
-        <ion-input debounce="1000" maxLength="24" required autocomplete="off" (ionChange)="save(user.uid, 'username', $event.target.value)"></ion-input>
+        <ion-input debounce="2000" maxLength="24" required autocomplete="off" [value]="user.username" (ionChange)="save(user.uid, 'username', $event.target.value)"></ion-input>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -40,7 +50,7 @@
     <ion-card-content style="padding: 10px">
       <ion-item lines="none">
         <ion-label position="floating">City, State, Country...</ion-label>
-        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'location', $event.target.value)"></ion-input>
+        <ion-input debounce="2000" maxLength="32" autocomplete="off" [value]="user.location" (ionChange)="save(user.uid, 'location', $event.target.value)"></ion-input>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -49,7 +59,7 @@
     <ion-card-content style="padding: 10px">
       <ion-item lines="none">
         <ion-label position="floating">Bio</ion-label>
-        <ion-textarea debounce="1000" maxLength="360" rows="8" autocomplete="off" (ionChange)="save(user.uid, 'bio', $event.target.value)"></ion-textarea>
+        <ion-textarea debounce="2000" maxLength="360" rows="8" autocomplete="off" [value]="user.bio" (ionChange)="save(user.uid, 'bio', $event.target.value)"></ion-textarea>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -59,19 +69,19 @@
     <ion-card-content style="padding: 10px">
       <ion-item lines="none">
         <ion-label position="floating">Instagram</ion-label>
-        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'instagramUrl', $event.target.value)"></ion-input>
+        <ion-input clearInput debounce="2000" maxLength="64" autocomplete="off" [value]="user.instagramUrl" (ionChange)="save(user.uid, 'instagramUrl', $event.target.value)"></ion-input>
       </ion-item>
       <ion-item lines="none">
         <ion-label position="floating">Twitter</ion-label>
-        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'twitterUrl', $event.target.value)"></ion-input>
+        <ion-input clearInput debounce="2000" maxLength="64" autocomplete="off" [value]="user.twitterUrl" (ionChange)="save(user.uid, 'twitterUrl', $event.target.value)"></ion-input>
       </ion-item>
       <ion-item lines="none">
         <ion-label position="floating">Facebook</ion-label>
-        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'facebookUrl', $event.target.value)"></ion-input>
+        <ion-input clearInput debounce="2000" maxLength="64" autocomplete="off" [value]="user.facebookUrl" (ionChange)="save(user.uid, 'facebookUrl', $event.target.value)"></ion-input>
       </ion-item>
       <ion-item lines="none">
         <ion-label position="floating">Website</ion-label>
-        <ion-input debounce="1000" maxLength="32" autocomplete="off" (ionChange)="save(user.uid, 'websiteUrl', $event.target.value)"></ion-input>
+        <ion-input clearInput debounce="2000" maxLength="64" autocomplete="off" [value]="user.websiteUrl" (ionChange)="save(user.uid, 'websiteUrl', $event.target.value)"></ion-input>
       </ion-item>
     </ion-card-content>
   </ion-card>

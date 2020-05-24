@@ -53,8 +53,11 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.seo.updateTags({});
   }
 
-  socialClick(link: string) {
-    console.log('navigate to ', link);
+  socialClick(link: string = '') {
+    if (link.length) {
+      const url = link.substring(0, 2) === 'htt' || link.substring(0, 2) === 'www' ? link : `https://${link}`;
+      window.open(url);
+    }
   }
 
 }
