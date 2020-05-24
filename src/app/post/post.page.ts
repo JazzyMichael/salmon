@@ -82,7 +82,6 @@ export class PostPage implements OnInit, OnDestroy {
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         { text: 'Delete', handler: async () => {
-            console.log('deleting: ' + this.postId);
             await this.postService.delete(this.postId);
             const toast = await this.toaster.create({
               message: 'Deleted',

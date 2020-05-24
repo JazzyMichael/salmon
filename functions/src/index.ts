@@ -42,9 +42,7 @@ export const createPost = functions.firestore
         const post = snap.data();
         if (!post || !post.userId) throw new Error('Invalid Post');
         const increment = admin.firestore.FieldValue.increment(1);
-        // get user doc
-        // modify recent posts
-        // update postCount & recentPosts
+        // todo: also update recent posts on user doc
         return db.doc(`users/${post.userId}`).update({ postCount: increment });
     });
 
@@ -52,12 +50,23 @@ export const deletePost = functions.firestore
     .document('posts/{postId}')
     .onDelete((snap, context) => {
         const post = snap.data();
+
         if (!post || !post.userId) throw new Error('Invalid Post');
 
-        // delete post images from storage
+        const paths = post.images.map((img: any) => img.path);
+
+        const promises = paths.map((path: string) => {
+            return admin.storage().bucket('theartofcookingsalmon.appspot.com').file(path).delete();
+        });
 
         const decrement = admin.firestore.FieldValue.increment(-1);
-        return db.doc(`users/${post.userId}`).update({ postCount: decrement });
+
+        // todo: also update recent posts on user doc
+        const updateUser = db.doc(`users/${post.userId}`).update({ postCount: decrement });
+
+        promises.push(updateUser);
+
+        return Promise.all(promises);
     });
 
 
