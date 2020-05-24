@@ -37,7 +37,7 @@
 
     <ion-button [fill]="liked ? 'solid' : 'outline'" (click)="toggleLike()">
       <ion-icon slot="start" [name]="liked ? 'heart' : 'heart-outline'" style="margin-right: 10px"></ion-icon>
-      {{ liked ? 'Saved' : 'Add to Favorites' }}
+      {{ liked ? 'Saved' : liking ? 'Saving...' : 'Add to Favorites' }}
     </ion-button>
   </div>
 

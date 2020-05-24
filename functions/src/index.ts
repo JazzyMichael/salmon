@@ -91,7 +91,7 @@ export const deletePost = functions.firestore
 export const favoriteToggle = functions.https.onCall((data: any = {}, context) => {
     const { user, post, favorite } = data;
 
-    if (!user || !post || !favorite) {
+    if (!user || !post || favorite === undefined) {
         console.log('invalid', { user, post, favorite });
         throw new Error('Invalid Favorite');
     }

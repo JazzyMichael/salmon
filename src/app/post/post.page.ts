@@ -23,6 +23,7 @@ export class PostPage implements OnInit, OnDestroy {
   postId: string;
   editable: boolean;
   liked: boolean;
+  liking: boolean;
   slideOpts: any = {
     autoHeight: true,
     autoplay: {
@@ -70,12 +71,14 @@ export class PostPage implements OnInit, OnDestroy {
   }
 
   async toggleLike() {
+    this.liking = true;
     const user = this.auth.user$.value;
     await this.fireFunctions.httpsCallable('favoriteToggle')({
       post: { ...this.post, id: this.postId },
       user,
       favorite: !this.liked
     }).toPromise();
+    this.liking = false;
   }
 
   edit() {
