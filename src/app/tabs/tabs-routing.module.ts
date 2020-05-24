@@ -33,6 +33,11 @@ const routes: Routes = [
     path: '',
     redirectTo: '/tabs/home',
     pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '/tabs/home',
+    pathMatch: 'full'
   }
 ];
 

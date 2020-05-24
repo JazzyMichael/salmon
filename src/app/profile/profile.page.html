@@ -48,7 +48,10 @@
     </ion-card-content>
   </ion-card>
 
-  <h2 style="margin-left: 1em; margin-top: 2em;">{{ user.postCount }} Posts</h2>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 1em;">
+    <h2 style="margin: 0;">{{ user.postCount }} {{ user.postCount == 1 ? 'Post' : 'Posts' }}</h2>
+    <p [routerLink]="'/user-posts/' + user.uid" style="margin: 0; color: var(--ion-color-medium); cursor: pointer;">View All</p>
+  </div>
 
   <div class="post-list">
     <ion-card *ngFor="let post of user.recentPosts" [routerLink]="'/post/' + post.id">
