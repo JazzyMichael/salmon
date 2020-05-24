@@ -53,6 +53,6 @@ export class AuthService {
 
   async logout() {
     await this.fireAuth.auth.signOut();
-    await this.router.navigateByUrl('/');
+    await this.router.navigateByUrl('/login');
   }
 }

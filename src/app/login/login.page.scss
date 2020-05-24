@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 250px;
     min-height: 16vh;
-    margin: 1em auto;
+    margin: 3em auto 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -12,7 +12,6 @@
 .login-banner-image {
     width: 100%;
     height: 25vh;
-    margin: 0 0 10vh 0;
     background-image: url('../../assets/salmon-on-ice.jpg');
     background-size: cover;
     background-position: center;
