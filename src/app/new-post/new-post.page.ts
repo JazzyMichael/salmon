@@ -98,8 +98,10 @@ export class NewPostPage implements OnInit {
 
     const imgUploads = [];
 
+    const smallTitle = this.postForm.value.title.replace(/\s/g, '').substring(0, 10);
+
     for (const [index, img] of this.images.entries()) {
-      const path = `posts/${userId}/` + Math.random().toString().slice(3, 11) + `.${img.file.type.split('/')[1]}`;
+      const path = `posts/${userId}/` + smallTitle + `-${index}.${img.file.type.split('/')[1]}`;
       this.images[index].path = path;
       const task = this.fireStorage.upload(path, img.file);
       imgUploads.push(task);

@@ -61,7 +61,7 @@ export const deletePost = functions.firestore
         const post = snap.data();
         const postId = context.params.postId;
 
-        if (!post || !post.id || !post.userId) throw new Error('Invalid Post');
+        if (!post || !postId || !post.userId) throw new Error('Invalid Post');
 
         const paths = post.images.map((img: any) => img.path);
 
