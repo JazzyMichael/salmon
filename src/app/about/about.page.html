@@ -19,18 +19,76 @@
   </ion-segment>
 
   <div *ngIf="segment === 'app'">
-    <p>App Info Image</p>
-    <p>What is this app</p>
-    <p>Inspiration</p>
-    <p>Cool Features</p>
+
+    <img src="../../assets/salmon-outline.jpg" alt="About Image">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Welcome</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>This is where a description of the app will be as well as the inspiration for making this.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut aperiam possimus doloremque facere corporis.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Information</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Info on new & upcoming features, compliance, and contact details.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut aperiam possimus doloremque facere corporis.</p>
+      </ion-card-content>
+    </ion-card>
+
   </div>
 
 
   <div *ngIf="segment === 'fish'">
-    <p>Fish Info Image</p>
-    <p>History of Salmon</p>
-    <p>About the fish</p>
-    <p>Basic Recipe & Ingredients</p>
+
+    <img src="../../assets/salmon-fish.svg" alt="About Image">
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>What is Salmon?</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>This is where a description of the app will be as well as the inspiration for making this.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut aperiam possimus doloremque facere corporis.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>A Brief History</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Descriptions of features like dark mode and speed enhancements.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut aperiam possimus doloremque facere corporis.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Basic Recipe</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Descriptions of features like dark mode and speed enhancements.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut aperiam possimus doloremque facere corporis.</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button routerLink="/">
+      <ion-icon slot="start" style="transform: scale(1.25); margin: 0 16px 0 4px;" src="../../assets/salmon-icon.svg"></ion-icon>
+      See some Salmon!
+    </ion-button>
+
+    <ion-button routerLink="/">
+      <ion-icon slot="start" style="margin: 0 16px 0 4px;" name="restaurant"></ion-icon>
+      Post some Salmon!
+    </ion-button>
+
   </div>
 
   <div style="text-align: center; display: grid; grid-template-columns: 1fr 1fr; width: 90%; max-width: 700px; margin: 2em auto;">
