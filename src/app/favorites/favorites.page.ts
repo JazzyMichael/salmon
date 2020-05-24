@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SEOService } from '../services/seo.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-favorites',
@@ -8,7 +9,10 @@ import { SEOService } from '../services/seo.service';
 })
 export class FavoritesPage implements OnInit {
 
-  constructor(private seo: SEOService) { }
+  constructor(
+    public auth: AuthService,
+    private seo: SEOService
+  ) { }
 
   ngOnInit() {
     this.seo.updateTags({});
