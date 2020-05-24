@@ -14,7 +14,7 @@
               <p>{{ user.username }}</p>
             </ion-text>
             <ion-text color="medium">
-              <p>{{ user.postCount }} posts</p>
+              <p>{{ user.postCount }} {{ user.postCount == 1 ? 'post' : 'posts' }}</p>
             </ion-text>
           </ion-label>
         </ion-item>
@@ -47,7 +47,7 @@
 
       <div style="padding: 1em">
         <ion-text color="dark">
-          <h4>Salmon Fun Fact</h4>
+          <h4>Fun Fact</h4>
         </ion-text>
         <ion-text color="medium" style="font-size: 0.8em;">
           <p>"Pink salmon are the smallest and most abundant species and Chinook salmon are the largest (exceeding 50 kilos) but least abundant species.  Interestingly, they have exactly the same number of scales."</p>
