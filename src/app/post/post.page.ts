@@ -21,8 +21,12 @@ export class PostPage implements OnInit, OnDestroy {
   post: any;
   postId: string;
   editable: boolean;
+  liked: boolean;
   slideOpts: any = {
-    autoHeight: true
+    autoHeight: true,
+    autoplay: {
+      delay: 3000
+    }
   };
 
   constructor(
@@ -48,6 +52,7 @@ export class PostPage implements OnInit, OnDestroy {
       if (!post) return;
       this.post = post;
       this.editable = this.post && this.post.userId && this.post.userId === this.auth.uid;
+      this.liked = false;
       this.seo.updateTags({
         title: `${this.post.title} | Salmon`,
         description: `${this.post.description} ${this.post.location}. The Art of Cooking Salmon.`,
@@ -59,6 +64,10 @@ export class PostPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.seo.updateTags({});
+  }
+
+  toggleLike() {
+    setTimeout(() => this.liked = !this.liked, 700);
   }
 
   edit() {

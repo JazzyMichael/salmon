@@ -30,8 +30,8 @@ export class AppComponent {
     //    - hide splash screen
     // });
 
-    Storage.get({ key: 'darkMode' }).then(val => {
-      if (val) {
+    Storage.get({ key: 'darkMode' }).then(({ value }) => {
+      if (value) {
         this.darkMode = true;
         document.body.classList.add('dark');
       }

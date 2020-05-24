@@ -16,8 +16,9 @@
 
   <ion-card>
     <ion-slides pager="true" [options]="slideOpts">
-      <ion-slide *ngFor="let imageUrl of post.images" style="display: flex; flex-direction: column; max-height: 90vh;">
-        <img [src]="imageUrl" style="margin-bottom: 2em"/>
+      <ion-slide *ngFor="let img of post.images" style="display: flex; flex-direction: column; max-height: 80vh;">
+        <img [src]="img.url" style="margin-bottom: 2em"/>
+        <p style="margin-bottom: 2em"> </p>
       </ion-slide>
     </ion-slides>
   </ion-card>
@@ -32,6 +33,11 @@
         <span>{{ post.createdAt.toDate() | date:'shortDate' }} {{ post.location ? post.location : '' }}</span>
       </p>
     </ion-text>
+
+    <ion-button [fill]="liked ? 'solid' : 'outline'" (click)="toggleLike()">
+      <ion-icon slot="start" [name]="liked ? 'heart' : 'heart-outline'" style="margin-right: 10px"></ion-icon>
+      {{ liked ? 'Saved' : 'Add to Favorites' }}
+    </ion-button>
   </div>
 
   <ion-card *ngIf="post.description">

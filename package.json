@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "extra-poll": "ng run app:serve --host=localhost --port=8100 --poll=2000"
   },
   "private": true,
   "dependencies": {

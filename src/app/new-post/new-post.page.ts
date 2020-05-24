@@ -107,12 +107,12 @@ export class NewPostPage implements OnInit {
 
     const uploaded = await Promise.all(imgUploads);
 
-    const imgUrls = [];
+    const imgs = [];
 
     for (const img of this.images) {
       const storageRef = this.fireStorage.ref(img.path);
       const downloadUrl = await storageRef.getDownloadURL().toPromise();
-      imgUrls.push(downloadUrl);
+      imgs.push({ path: img.path, url: downloadUrl });
     }
 
     const newPost = {
@@ -122,7 +122,7 @@ export class NewPostPage implements OnInit {
       userId,
       createdAt: new Date(),
       likes: 0,
-      images: imgUrls
+      images: imgs
     };
 
     const { id } = await this.postService.create(newPost);

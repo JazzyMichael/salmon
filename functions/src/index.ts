@@ -29,7 +29,8 @@ export const createUser = functions.auth.user().onCreate(async (user: admin.auth
         facebookUrl: '',
         instagramUrl: '',
         twitterUrl: '',
-        websiteUrl: ''
+        websiteUrl: '',
+        recentPosts: []
     };
 
     await db.doc(`users/${user.uid}`).set(newUser);
@@ -41,6 +42,9 @@ export const createPost = functions.firestore
         const post = snap.data();
         if (!post || !post.userId) throw new Error('Invalid Post');
         const increment = admin.firestore.FieldValue.increment(1);
+        // get user doc
+        // modify recent posts
+        // update postCount & recentPosts
         return db.doc(`users/${post.userId}`).update({ postCount: increment });
     });
 
@@ -49,6 +53,9 @@ export const deletePost = functions.firestore
     .onDelete((snap, context) => {
         const post = snap.data();
         if (!post || !post.userId) throw new Error('Invalid Post');
+
+        // delete post images from storage
+
         const decrement = admin.firestore.FieldValue.increment(-1);
         return db.doc(`users/${post.userId}`).update({ postCount: decrement });
     });
