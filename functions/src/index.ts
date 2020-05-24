@@ -30,7 +30,8 @@ export const createUser = functions.auth.user().onCreate(async (user: admin.auth
         instagramUrl: '',
         twitterUrl: '',
         websiteUrl: '',
-        recentPosts: []
+        recentPosts: [],
+        favorites: []
     };
 
     await db.doc(`users/${user.uid}`).set(newUser);
@@ -87,18 +88,26 @@ export const deletePost = functions.firestore
         return Promise.all(promises);
     });
 
+export const favoriteToggle = functions.https.onCall((data: any = {}, context) => {
+    const { user, post, favorite } = data;
 
+    if (!user || !post || !favorite) {
+        console.log('invalid', { user, post, favorite });
+        throw new Error('Invalid Favorite');
+    }
 
+    const batch = db.batch();
 
+    const postRef = db.doc(`posts/${post.id}`);
+    const increment = favorite ? 1 : -1;
+    const likes = admin.firestore.FieldValue.increment(increment);
+    batch.update(postRef, { likes });
 
+    const userRef = db.doc(`users/${user.uid}`);
+    const favorites = favorite
+    ? [ post, ...user.favorites ].slice(0, 99)
+    : user.favorites.filter(({ id }: any) => id !== post.id);
+    batch.update(userRef, { favorites });
 
-// Coming up next...
-
-
-// likePost
-//   - increment post likes
-//   - create favorites document
-
-// unlikePost
-//   - decrement post likes
-//   - delete favorites document
+    return batch.commit();
+});

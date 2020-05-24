@@ -30,6 +30,7 @@
     <ion-text color="medium">
       <p style="display: flex; justify-content: space-between;">
         <!-- <span routerLink="'/profile/' + post.userId">Username</span> -->
+        <span *ngIf="post.likes">{{ post.likes }} {{ post.likes == 1 ? 'like' : 'likes' }}</span>
         <span>{{ post.createdAt.toDate() | date:'shortDate' }} {{ post.location ? post.location : '' }}</span>
       </p>
     </ion-text>

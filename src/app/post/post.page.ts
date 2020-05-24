@@ -6,6 +6,7 @@ import { SEOService } from '../services/seo.service';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
 import { Location } from '@angular/common';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
@@ -36,6 +37,7 @@ export class PostPage implements OnInit, OnDestroy {
     private postService: PostService,
     private auth: AuthService,
     private location: Location,
+    private fireFunctions: AngularFireFunctions,
     private toaster: ToastController,
     private alertController: AlertController,
     private actionSheetController: ActionSheetController
@@ -52,7 +54,8 @@ export class PostPage implements OnInit, OnDestroy {
       if (!post) return;
       this.post = post;
       this.editable = this.post && this.post.userId && this.post.userId === this.auth.uid;
-      this.liked = false;
+      const user = this.auth.user$.value;
+      this.liked = user && user.favorites.find(p => p.id === this.postId);
       this.seo.updateTags({
         title: `${this.post.title} | Salmon`,
         description: `${this.post.description} ${this.post.location}. The Art of Cooking Salmon.`,
@@ -66,12 +69,17 @@ export class PostPage implements OnInit, OnDestroy {
     this.seo.updateTags({});
   }
 
-  toggleLike() {
-    setTimeout(() => this.liked = !this.liked, 700);
+  async toggleLike() {
+    const user = this.auth.user$.value;
+    await this.fireFunctions.httpsCallable('favoriteToggle')({
+      post: { ...this.post, id: this.postId },
+      user,
+      favorite: !this.liked
+    }).toPromise();
   }
 
   edit() {
-    console.log('edited!');
+    console.log('edit!');
   }
 
   async showDeleteConfirmation() {
