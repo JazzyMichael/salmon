@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, catchError, tap } from 'rxjs/operators';
 import { SEOService } from '../services/seo.service';
@@ -10,6 +10,7 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
+import { UserService } from '../services/user.service';
 
 const { Storage, Share, Clipboard } = Plugins;
 
@@ -21,13 +22,14 @@ const { Storage, Share, Clipboard } = Plugins;
 export class PostPage implements OnInit, OnDestroy {
   post: any;
   postId: string;
+  postUser$: Observable<any>;
   editable: boolean;
   liked: boolean;
   liking: boolean;
   slideOpts: any = {
     autoHeight: true,
     autoplay: {
-      delay: 3000
+      delay: 5000
     }
   };
 
@@ -36,6 +38,7 @@ export class PostPage implements OnInit, OnDestroy {
     private router: Router,
     private seo: SEOService,
     private postService: PostService,
+    private userService: UserService,
     private auth: AuthService,
     private location: Location,
     private fireFunctions: AngularFireFunctions,
@@ -54,6 +57,7 @@ export class PostPage implements OnInit, OnDestroy {
     .subscribe(post => {
       if (!post) return;
       this.post = post;
+      this.postUser$ = this.userService.getById(this.post.userId);
       this.editable = this.post && this.post.userId && this.post.userId === this.auth.uid;
       const user = this.auth.user$.value;
       this.liked = user && user.favorites.find(p => p.id === this.postId);

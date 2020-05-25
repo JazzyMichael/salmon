@@ -29,8 +29,7 @@
     </ion-text>
     <ion-text color="medium">
       <p style="display: flex; justify-content: space-between;">
-        <!-- <span routerLink="'/profile/' + post.userId">Username</span> -->
-        <span *ngIf="post.likes">{{ post.likes }} {{ post.likes == 1 ? 'like' : 'likes' }}</span>
+        <span *ngIf="postUser$ | async as postUser" [routerLink]="'/profile/' + post.userId" style="cursor: pointer;">{{ postUser.username }}</span>
         <span>{{ post.createdAt.toDate() | date:'shortDate' }} {{ post.location ? post.location : '' }}</span>
       </p>
     </ion-text>
@@ -39,6 +38,9 @@
       <ion-icon slot="start" [name]="liked ? 'heart' : 'heart-outline'" style="margin-right: 10px"></ion-icon>
       {{ liked ? 'Saved' : liking ? 'Saving...' : 'Add to Favorites' }}
     </ion-button>
+
+    <p *ngIf="post.likes" style="float: right">{{ post.likes }} {{ post.likes == 1 ? 'like' : 'likes' }}</p>
+
   </div>
 
   <ion-card *ngIf="post.description">

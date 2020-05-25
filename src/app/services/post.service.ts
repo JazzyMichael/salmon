@@ -9,15 +9,9 @@ export class PostService {
   constructor(private fireStore: AngularFirestore) { }
 
   getAll(sort: string = 'recent') {
-    // TODO
-    // - map user ids to usernames with memoization
-    // - implement pagination
-    // - post interface
-
-    const order = sort === 'recent' ? 'createdAt' : 'likes';
-
+    const field = sort === 'recent' ? 'createdAt' : 'likes';
     return this.fireStore
-      .collection('posts', ref => ref.orderBy(order, 'desc').limit(10))
+      .collection('posts', ref => ref.orderBy(field, 'desc').limit(10))
       .valueChanges({ idField: 'id' });
   }
 
