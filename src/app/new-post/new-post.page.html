@@ -4,7 +4,7 @@
     <ion-buttons slot="end">
       <ion-button
         (click)="submit()"
-        [disabled]="!postForm.valid || !images.length || images.length >= 5"
+        [disabled]="loading || !postForm.valid || !images.length || images.length >= 5"
         color="primary">
         Submit
       </ion-button>
