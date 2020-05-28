@@ -1,68 +1,72 @@
 <ion-app>
-  <ion-menu side="start" content-id="main" #sideMenu>
-    <img src="./assets/salmon-bg-with-text.jpg" alt="Logo">
-    <ion-content>
-      <ion-list style="border-bottom: 2px solid var(--ion-color-primary);">
-        <ion-item>
-          <ion-toggle slot="start" color="primary" [checked]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
-          <ion-label>Dark Mode</ion-label>
-        </ion-item>
-        <ion-item *ngIf="auth.user$ | async as user; else loginButton" [routerLink]="'/profile/' + user.uid" (click)="sideMenu.close()">
-          <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>
-            <ion-text color="dark">
-              <p>{{ user.username }}</p>
-            </ion-text>
-            <ion-text color="medium">
-              <p>{{ user.postCount }} {{ user.postCount == 1 ? 'post' : 'posts' }}</p>
-            </ion-text>
-          </ion-label>
-        </ion-item>
-        <ng-template #loginButton>
-          <ion-item routerLink="/login" (click)="sideMenu.close()">
-            <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
-            <ion-label>Login</ion-label>
+  <ion-split-pane when="(min-width: 768px)" content-id="main">
+    <ion-menu side="start" content-id="main" #sideMenu>
+      <img src="./assets/salmon-bg-with-text.jpg" alt="Logo">
+      <ion-content>
+        <ion-list style="border-bottom: 2px solid var(--ion-color-primary);">
+          <ion-item>
+            <ion-toggle slot="start" color="primary" [checked]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+            <ion-label>Dark Mode</ion-label>
           </ion-item>
-        </ng-template>
-        <ion-item routerLink="/" (click)="sideMenu.close()">
-          <ion-icon name="home-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Home</ion-label>
-        </ion-item>
-        <ion-item routerLink="/about" (click)="sideMenu.close()">
-          <ion-icon name="bonfire-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>About</ion-label>
-        </ion-item>
-        <ion-item routerLink="" (click)="share()" lines="none">
-          <ion-icon name="share-social-outline" slot="start" color="primary"></ion-icon>
-          <ion-label>Share</ion-label>
-        </ion-item>
-      </ion-list>
+          <ion-item *ngIf="auth.user$ | async as user; else loginButton" [routerLink]="'/profile/' + user.uid" (click)="sideMenu.close()">
+            <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>
+              <ion-text color="dark">
+                <p>{{ user.username }}</p>
+              </ion-text>
+              <ion-text color="medium">
+                <p>{{ user.postCount }} {{ user.postCount == 1 ? 'post' : 'posts' }}</p>
+              </ion-text>
+            </ion-label>
+          </ion-item>
+          <ng-template #loginButton>
+            <ion-item routerLink="/login" (click)="sideMenu.close()">
+              <ion-icon name="happy-outline" slot="start" color="primary"></ion-icon>
+              <ion-label>Login</ion-label>
+            </ion-item>
+          </ng-template>
+          <ion-item routerLink="/about" (click)="sideMenu.close()">
+            <ion-icon name="bonfire-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>About</ion-label>
+          </ion-item>
+          <ion-item routerLink="/" (click)="sideMenu.close()">
+            <ion-icon name="home-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-item>
+          <ion-item routerLink="" (click)="share()" lines="none">
+            <ion-icon name="share-social-outline" slot="start" color="primary"></ion-icon>
+            <ion-label>Share</ion-label>
+          </ion-item>
+        </ion-list>
 
-      <ion-button
-        *ngIf="deferredPrompt"
-        (click)="installPWA()"
-        style="display: block; margin: 2em auto 0; max-width: 69%;">
-        Install
-      </ion-button>
+        <ion-button
+          *ngIf="deferredPrompt"
+          (click)="installPWA()"
+          style="display: block; margin: 2em auto 0; max-width: 69%;">
+          Install
+        </ion-button>
 
-      <div style="padding: 1em">
-        <ion-text color="dark">
-          <h4>Fun Fact</h4>
-        </ion-text>
-        <ion-text color="medium" style="font-size: 0.8em;">
-          <p>Pink salmon are the smallest and most abundant species and Chinook salmon are the largest (exceeding 50 kilos) but least abundant species.  Interestingly, they have exactly the same number of scales.</p>
-        </ion-text>
-      </div>
+        <div style="padding: 1em">
+          <ion-text color="dark">
+            <h4>Fun Fact</h4>
+          </ion-text>
+          <ion-text color="medium" style="font-size: 0.8em;">
+            <p>Pink salmon are the smallest and most abundant species and Chinook salmon are the largest (exceeding 50 kilos) but least abundant species.  Interestingly, they have exactly the same number of scales.</p>
+          </ion-text>
+        </div>
 
-      <ion-button
-        *ngIf="auth.user$ | async"
-        (click)="auth.logout(); sideMenu.close();"
-        style="display: block; margin: 2em auto 0; max-width: 69%;">
-        Logout
-      </ion-button>
+        <ion-button
+          *ngIf="auth.user$ | async"
+          (click)="auth.logout(); sideMenu.close();"
+          style="display: block; margin: 2em auto 0; max-width: 69%;">
+          Logout
+        </ion-button>
 
-    </ion-content>
-  </ion-menu>
+      </ion-content>
+    </ion-menu>
 
-  <ion-router-outlet id="main"></ion-router-outlet>
+    <ion-router-outlet id="main"></ion-router-outlet>
+
+  </ion-split-pane>
+
 </ion-app>
