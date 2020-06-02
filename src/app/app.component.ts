@@ -3,6 +3,7 @@ import { Platform, ToastController } from '@ionic/angular';
 import { AuthService } from './services/auth.service';
 import { Plugins } from '@capacitor/core';
 import { SwUpdate } from '@angular/service-worker';
+import { Router } from '@angular/router';
 
 const { Storage, Share, Clipboard } = Plugins;
 
@@ -13,22 +14,23 @@ const { Storage, Share, Clipboard } = Plugins;
 })
 export class AppComponent {
   darkMode: boolean;
+  updateAvailable: boolean;
   deferredPrompt: any;
 
   constructor(
     public auth: AuthService,
     private platform: Platform,
     private toaster: ToastController,
-    private swUpdates: SwUpdate
+    private swUpdates: SwUpdate,
+    private router: Router
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    // this.platform.ready().then(() => {
-    //    - set status bar
-    //    - hide splash screen
-    // });
+    this.platform.ready().then(() => {
+      // TODO: handle splash screen & status bar
+    });
 
     Storage.get({ key: 'darkMode' }).then(({ value }) => {
       if (value) {
@@ -38,17 +40,14 @@ export class AppComponent {
     });
 
     this.swUpdates.available.subscribe(async event => {
+      this.updateAvailable = true;
+    });
 
-      const toast = await this.toaster.create({
-        position: 'top', message: 'Updating...'
-      });
-
-      toast.present();
-
-      await this.swUpdates.activateUpdate();
-
-      document.location.reload();
-
+    this.router.events.subscribe(async () => {
+      if (this.updateAvailable) {
+        await this.swUpdates.activateUpdate();
+        document.location.reload();
+      }
     });
   }
 
