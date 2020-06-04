@@ -26,7 +26,7 @@ export class AboutPage implements OnInit, OnDestroy {
       url: 'https://theartofcookingsalmon/about'
     });
 
-    this.segment = location.toString().split('/')[4] || 'app';
+    this.segment = location.toString().split('/')[4] || 'fish';
   }
 
   ngOnDestroy() {
