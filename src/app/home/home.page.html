@@ -21,9 +21,9 @@
     </ion-toolbar>
   </ion-header>
 
-  <div class="post-list">
-    <ion-card *ngFor="let post of posts$ | async" [routerLink]="'/post/' + post.id">
-      <div class="post-img" [ngStyle]="{ 'background-image': 'url(' + post.images[0].url + ')' }"></div>
+  <div class="salmon-grid">
+    <ion-card class="salmon-card" *ngFor="let post of posts$ | async" [routerLink]="'/post/' + post.id">
+      <div class="salmon-thumbnail" [ngStyle]="{ 'background-image': 'url(' + post.images[0].url + ')' }"></div>
       <ion-card-content>{{ post.title }}</ion-card-content>
     </ion-card>
   </div>

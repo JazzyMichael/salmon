@@ -1,6 +1,38 @@
-.post-img {
-    height: 33vh;
+.salmon-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 300px;
+}
+
+.salmon-card {
+    height: 100%;
+    transition: all 222ms;
+
+    &:hover {
+        transform: translateY(-2px);
+        background-size: 500%;
+        background-image: repeating-linear-gradient(60deg, salmon, #6b696c, salmon, #6b696c, salmon, #6b696c, salmon, #6b696c);
+        animation: gradient-animation 3000ms infinite ease-out;
+        .salmon-thumbnail {
+            opacity: 0.4;
+        }
+    }
+}
+
+.salmon-thumbnail {
+    height: 256px;
     width: 100%;
     background-position: center;
     background-size: cover;
+    transition: all 500ms;
+}
+
+@keyframes gradient-animation {
+    0% {
+        background-position: left;
+    }
+    100% {
+        background-position: right;
+    }
 }
