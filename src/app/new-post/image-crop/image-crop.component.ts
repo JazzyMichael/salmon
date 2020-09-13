@@ -45,7 +45,7 @@ export class ImageCropComponent implements OnInit {
     this.aspectRatio = this.aspectRatio === 3 / 4 ? 4 / 3 : 3 / 4;
   }
 
-  rotate(modifier: 1 | -1) {
+  rotate(modifier: number) {
     this.canvasRotation += modifier;
     this.loading = true;
   }
