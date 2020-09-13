@@ -1,0 +1,52 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()" color="primary">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Crop the Salmon</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" color="primary">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <div class="crop-controls">
+    <ion-button [disabled]="loading" (click)="rotate(-1)">
+      <ion-icon slot="icon-only" name="arrow-undo" size="large"></ion-icon>
+    </ion-button>
+
+    <!-- <ion-button (click)="toggleAspectRatio()">
+      <ion-icon *ngIf="aspectRatio === 3/4" slot="icon-only" name="tablet-portrait-outline" size="large"></ion-icon>
+      <ion-icon *ngIf="aspectRatio !== 3/4" slot="icon-only" name="tablet-landscape-outline" size="large"></ion-icon>
+    </ion-button> -->
+
+    <ion-button [disabled]="loading" (click)="rotate(+1)">
+      <ion-icon slot="icon-only" name="arrow-redo" size="large"></ion-icon>
+    </ion-button>
+  </div>
+
+
+
+
+  <image-cropper
+    [imageFile]="imageFile"
+    [maintainAspectRatio]="false"
+    [aspectRatio]="aspectRatio"
+    [canvasRotation]="canvasRotation"
+    [cropper]="cropper"
+    [cropperMinWidth]="cropperMinWidth"
+    [cropperMinHeight]="cropperMinHeight"
+    format="jpeg"
+    (loadImageFailed)="loadImageFailed()"
+    (cropperReady)="cropperReady($event)"
+    (imageCropped)="imageCropped($event)">
+  </image-cropper>
+
+
+
+
+</ion-content>

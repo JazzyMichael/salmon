@@ -37,7 +37,7 @@
   <ion-list *ngIf="images?.length">
     <ion-reorder-group (ionItemReorder)="onReorder($event)" disabled="false">
       <ion-item *ngFor="let img of images; index as i" lines="none">
-        <img height="100" [src]="img.preview" alt="Image Preview">
+        <img height="100" [src]="img.preview" alt="Image Preview" style="cursor: pointer;" (click)="reCrop(i)">
         <ion-icon style="margin-left: 8px" color="danger" name="trash" (click)="images.splice(i, 1)"></ion-icon>
         <ion-reorder *ngIf="images.length > 1" slot="end"></ion-reorder>
       </ion-item>

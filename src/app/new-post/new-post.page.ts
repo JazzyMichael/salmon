@@ -7,6 +7,8 @@ import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { ImageCropComponent } from './image-crop/image-crop.component';
+import { ModalController } from '@ionic/angular';
 
 import imageCompression from 'browser-image-compression';
 
@@ -28,7 +30,8 @@ export class NewPostPage implements OnInit {
     private postService: PostService,
     private auth: AuthService,
     private sanitizer: DomSanitizer,
-    private fireStorage: AngularFireStorage
+    private fireStorage: AngularFireStorage,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -50,6 +53,23 @@ export class NewPostPage implements OnInit {
     this.images = [];
   }
 
+  async compressImage(file: File | Blob) {
+    const options = {
+      maxSizeMB: 2,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true
+    };
+    const compressedFile = await imageCompression(file, options);
+    if (compressedFile.size < file.size) {
+      console.log(`original image file size: ${file.size / 1024 / 1024} MB`);
+      console.log(`using compressed image: ${compressedFile.size / 1024 / 1024} MB`);
+      return compressedFile;
+    } else {
+      console.log(`image file size: ${file.size / 1024 / 1024} MB`);
+      return file;
+    }
+  }
+
   async addImage(event: any) {
     const file = event.target.files[0];
 
@@ -58,24 +78,61 @@ export class NewPostPage implements OnInit {
       return;
     }
 
-    console.log(`original file size: ${file.size / 1024 / 1024} MB`);
+    const compressedImage = await this.compressImage(file);
 
-    const options = {
-      maxSizeMB: 2,
-      maxWidthOrHeight: 1920,
-      useWebWorker: true
-    };
+    const modal = await this.modalController.create({
+      component: ImageCropComponent,
+      componentProps: {
+        imageFile: compressedImage
+      }
+    });
 
-    const compressedFile = await imageCompression(file, options);
+    await modal.present();
 
-    console.log(`compressed file size: ${compressedFile.size / 1024 / 1024} MB`);
+    try {
+      const { data } = await modal.onWillDismiss();
 
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const preview = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
-      this.images.push({ file: compressedFile, preview });
-    };
-    reader.readAsDataURL(compressedFile);
+      const { croppedImage, cropperPosition, imageFile, cancel } = data;
+
+      if (!cancel && croppedImage) {
+        this.images.push({ file: imageFile, preview: croppedImage, cropperPosition });
+      }
+
+    } catch (e) {
+      console.log('oops', e);
+    }
+
+
+    // handle multi-upload
+
+    // const reader = new FileReader();
+    // reader.onload = (e: any) => {
+    //   const preview = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
+    //   this.images.push({ file: croppedImage, preview });
+    // };
+    // reader.readAsDataURL(croppedImage);
+  }
+
+  async reCrop(index: number) {
+    const image = this.images[index];
+
+    const modal = await this.modalController.create({
+      component: ImageCropComponent,
+      componentProps: {
+        imageFile: image.file,
+        cropperPosition: image.cropperPosition
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    const { croppedImage, cropperPosition, imageFile, cancel } = data;
+
+    if (!cancel) {
+      this.images[index] = { file: imageFile, preview: croppedImage, cropperPosition };
+    }
   }
 
   onReorder(event: any) {

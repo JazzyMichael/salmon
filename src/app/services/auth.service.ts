@@ -10,6 +10,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
   providedIn: 'root'
 })
 export class AuthService {
+
   user$: BehaviorSubject<any> = new BehaviorSubject(null);
   uid: string;
 
@@ -26,7 +27,6 @@ export class AuthService {
       )
     )
     .subscribe((user: any) => {
-      console.log('User', user);
       this.uid = user && user.uid || null;
       this.user$.next(user);
     });

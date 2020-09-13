@@ -12,10 +12,10 @@
     &:hover {
         transform: translateY(-2px);
         background-size: 500%;
-        background-image: repeating-linear-gradient(60deg, salmon, #6b696c, salmon, #6b696c, salmon, #6b696c, salmon, #6b696c);
+        background-image: repeating-linear-gradient(70deg, salmon, ivory, salmon, ivory, salmon, ivory, salmon, ivory);
         animation: gradient-animation 3000ms infinite ease-out;
         .salmon-thumbnail {
-            opacity: 0.4;
+            opacity: 0.5;
         }
     }
 }
