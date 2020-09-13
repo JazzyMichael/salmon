@@ -72,9 +72,10 @@ export class NewPostPage implements OnInit {
 
   async addImage(event: any) {
     const file = event.target.files[0];
+    const files = event.target.files;
 
-    if (!file || file.type.split('/')[0] !== 'image' || file.size / 1024 / 1024 > 24) {
-      console.log('only small imgs dood');
+    if (!file || file.type.split('/')[0] !== 'image' || file.size / 1024 / 1024 > 24 || files.length > 5) {
+      console.log('bad upload');
       return;
     }
 
@@ -92,25 +93,33 @@ export class NewPostPage implements OnInit {
     try {
       const { data } = await modal.onWillDismiss();
 
+      if (!data) throw new Error('dismissed with no data');
+
       const { croppedImage, cropperPosition, imageFile, cancel } = data;
 
       if (!cancel && croppedImage) {
         this.images.push({ file: imageFile, preview: croppedImage, cropperPosition });
       }
 
+      if (!cancel && files.length > 1) {
+        for (const uploadedFile of files) {
+          const imgFile = uploadedFile && uploadedFile.name !== file.name ? uploadedFile : null;
+          if (imgFile && imgFile.type.split('/')[0] === 'image' && file.size / 1024 / 1024 < 24) {
+            const compre = await this.compressImage(imgFile);
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+              const preview = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
+              this.images.push({ file: compre, preview });
+            };
+            reader.readAsDataURL(compre);
+          }
+        }
+      }
+
     } catch (e) {
       console.log('oops', e);
     }
 
-
-    // handle multi-upload
-
-    // const reader = new FileReader();
-    // reader.onload = (e: any) => {
-    //   const preview = this.sanitizer.bypassSecurityTrustUrl(e.target.result as string);
-    //   this.images.push({ file: croppedImage, preview });
-    // };
-    // reader.readAsDataURL(croppedImage);
   }
 
   async reCrop(index: number) {
@@ -127,6 +136,10 @@ export class NewPostPage implements OnInit {
     await modal.present();
 
     const { data } = await modal.onWillDismiss();
+
+    if (!data) {
+      return;
+    }
 
     const { croppedImage, cropperPosition, imageFile, cancel } = data;
 
